@@ -20,6 +20,8 @@
 #namespace m_array;
 
 /@
+"Author: DidUknowiPwn"
+"LastChange: 5/14/17"
 "Name: m_array::search( <array>, <value>, [arg1] )"
 "Summary: Searches given array for the value"
 "Module: Utility"
@@ -27,7 +29,6 @@
 "MandatoryArg: <vallue> : the value to search for"
 "OptionalArg: arg1 : parameter 1 causes this to return an index instead of item"
 "Example: m_array::search( level.players, player );"
-"SPMP: both"
 @/
 function search( array, value, arg1 = false )
 {
@@ -42,12 +43,13 @@ function search( array, value, arg1 = false )
 }
 
 /@
+"Author: DidUknowiPwn"
+"LastChange: 5/14/17"
 "Name: m_array::randomize_return( <array> )"
 "Summary: Select a random element from the array while randomizing the array"
 "Module: Utility"
 "MandatoryArg: <array> : the array of items to randomize and select from"
 "Example: m_array::randomize_return( level.players );"
-"SPMP: both"
 @/
 function randomize_return( array )
 {
