@@ -22,23 +22,23 @@
 /@
 "Author: DidUknowiPwn"
 "LastChange: 5/14/17"
-"Name: m_array::search( <array>, <value>, [arg1] )"
+"Name: m_array::search( <array>, <value>, [as_index] )"
 "Summary: Searches given array for the value"
 "Module: Utility"
 "MandatoryArg: <array> : the array of items to search"
-"MandatoryArg: <vallue> : the value to search for"
-"OptionalArg: arg1 : parameter 1 causes this to return an index instead of item"
-"Example: m_array::search( level.players, player );"
+"MandatoryArg: <value> : the value to search for"
+"OptionalArg: [as_index] : parameter 1 causes this to return an index instead of item"
+"Example: item = m_array::search( level.players, player );"
 @/
-function search( array, value, arg1 = false )
+function search( array, value, as_index = false )
 {
 	if ( !IsArray( array ) )
 		return undefined;
 
-	for( i = 0; i < array.size; i++ )
+	for ( i = 0; i < array.size; i++ )
 	{
 		if ( array[i] == value )
-			return ( arg1 ? i : array[ i ] );
+			return ( as_index ? i : array[ i ] );
 	}
 }
 
@@ -49,7 +49,7 @@ function search( array, value, arg1 = false )
 "Summary: Select a random element from the array while randomizing the array"
 "Module: Utility"
 "MandatoryArg: <array> : the array of items to randomize and select from"
-"Example: m_array::randomize_return( level.players );"
+"Example: selection = m_array::randomize_return( level.players );"
 @/
 function randomize_return( array )
 {

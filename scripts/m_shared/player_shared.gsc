@@ -27,15 +27,15 @@
 "LastChange: 5/14/17"
 "Name: m_player::lock( [stance] )"
 "Summary: Player is locked from all movement mechanics."
-"Module: Utility"
-"OptionalArg:  [stance] : force a stance and lock the player to that one "
-"Example: m_player::lock( "crouch" );"
+"Module: Player"
+"OptionalArg: [stance] : force a stance and lock the player to that one "
+"Example: player m_player::lock( "crouch" );"
 @/
 function lock( stance = self GetStance() )
 {
 	// override player velocity to "completely" lock
 	self SetVelocity( (0,0,0) );
-	// stances
+	// stances -- Allow<> functions currently busted with MP
 	self SetStance( stance );
 	if ( stance != "crouch" )
 		self AllowCrouch( false );
@@ -58,8 +58,8 @@ function lock( stance = self GetStance() )
 "LastChange: 5/14/17"
 "Name: m_player::release()"
 "Summary: Player is released from all stopping mechanics."
-"Module: Utility"
-"Example: m_player::release();"
+"Module: Player"
+"Example: player m_player::release();"
 @/
 function release()
 {
