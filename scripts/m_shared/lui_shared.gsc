@@ -220,7 +220,7 @@ function clear_lui_menu( lui_data )
 
 	if ( isdefined( lui_data ) )
 	{
-		arr = ( type == "image" ? self.lui_menu.image : self.lui_menu.txt );
+		arr = ( type == "image" ? self.lui_menu.image : self.lui_menu.text );
 		self CloseLUIMenu( lui_data.hud );
 		ArrayRemoveIndex( arr, lui_data.idx, true );
 
