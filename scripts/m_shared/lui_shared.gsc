@@ -39,7 +39,6 @@ function on_player_spawned()
 
 /@
 "Author: [TxM] WARDOG"
-"LastChange: 18/5/17"
 "Name: m_lui::show_shader( <shader>, [alignment], [x], [y], [width], [color] )"
 "Summary: Displays a shader using the LUI system"
 "Module: LUI"
@@ -87,7 +86,6 @@ function show_shader( shader, alignment = LUI_HUDELEM_ALIGNMENT_CENTER, x = 0, y
 
 /@
 "Author: [TxM] WARDOG"
-"LastChange: 18/5/17"
 "Name: m_lui::show_shader_for_time( <shader>, <time> [alignment], [x], [y], [width], [color] )"
 "Summary: Displays a shader for some time using the LUI system"
 "Module: LUI"
@@ -117,7 +115,6 @@ function show_shader_for_time( shader, time = 5, alignment = LUI_HUDELEM_ALIGNME
 
 /@
 "Author: DidUknowiPwn"
-"LastChange: 5/16/17"
 "Name: m_lui::show_msg( <msg>, [alignment], [x], [y], [width], [color] )"
 "Summary: Displays a message using the LUI system"
 "Module: LUI"
@@ -165,7 +162,6 @@ function show_msg( msg, alignment = LUI_HUDELEM_ALIGNMENT_CENTER, x = 0, y = 0, 
 
 /@
 "Author: DidUknowiPwn"
-"LastChange: 5/16/17"
 "Name: m_lui::show_msg( <msg>, <time>, [alignment], [x], [y], [width], [color] )"
 "Summary: Displays a message for some time using the LUI system"
 "Module: LUI"

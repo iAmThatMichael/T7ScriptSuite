@@ -24,7 +24,6 @@
 
 /@
 "Author: DidUknowiPwn"
-"LastChange: 5/14/17"
 "Name: m_player::lock( [stance] )"
 "Summary: Player is locked from all movement mechanics."
 "Module: Player"
@@ -55,7 +54,6 @@ function lock( stance = self GetStance() )
 
 /@
 "Author: DidUknowiPwn"
-"LastChange: 5/14/17"
 "Name: m_player::release()"
 "Summary: Player is released from all stopping mechanics."
 "Module: Player"

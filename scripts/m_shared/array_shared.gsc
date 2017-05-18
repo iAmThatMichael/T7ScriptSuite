@@ -21,7 +21,6 @@
 
 /@
 "Author: DidUknowiPwn"
-"LastChange: 5/14/17"
 "Name: m_array::search( <array>, <value>, [as_index] )"
 "Summary: Searches given array for the value"
 "Module: Utility"
@@ -44,7 +43,6 @@ function search( array, value, as_index = false )
 
 /@
 "Author: DidUknowiPwn"
-"LastChange: 5/14/17"
 "Name: m_array::randomize_return( <array> )"
 "Summary: Select a random element from the array while randomizing the array"
 "Module: Utility"

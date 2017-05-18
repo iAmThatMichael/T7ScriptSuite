@@ -24,7 +24,6 @@
 
 /@
 "Author: DidUknowiPwn"
-"LastChange: 5/16/17"
 "Name: m_util::to_string( <convert> )"
 "Summary: Converts given values to a string"
 "Module: Utility"
@@ -52,7 +51,6 @@ function to_string( convert, append_str = "" )
 
 /@
 "Author: DidUknowiPwn"
-"LastChange: 5/16/17"
 "Name: m_util::get_team_count( <team> )"
 "Summary: Gets the total of players in a team"
 "Module: Utility"

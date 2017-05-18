@@ -25,7 +25,6 @@
 
 /@
 "Author: DidUknowiPwn"
-"LastChange: 5/16/17"
 "Name: m_trigger::create_trigger( [type], ... )"
 "Summary: Create a trigger type with assigned properties."
 "Module: Utility"
