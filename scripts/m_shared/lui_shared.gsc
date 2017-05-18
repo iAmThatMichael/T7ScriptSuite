@@ -58,7 +58,7 @@ function show_shader( shader, alignment = LUI_HUDELEM_ALIGNMENT_CENTER, x = 0, y
 
 	if ( IsString( shader ) && shader != "" )
 	{
-		hud = self OpenLUIMenu( "HudElementText" );
+		hud = self OpenLUIMenu( "HudElementImage" );
 		self SetLUIMenuData( hud, "alignment", alignment );
 		self SetLUIMenuData( hud, "x", x );
 		self SetLUIMenuData( hud, "y", y );
