@@ -35,10 +35,10 @@ function autoexec init()
 function on_player_spawned()
 {
 	if ( !isdefined( self.lui_hud ) )
-		self.lui_hud = SpawnStruct();
+		self.lui_hud = [];
 
-	self.lui_hud.image = [];
-	self.lui_hud.text = [];
+	self.lui_hud["image"] = [];
+	self.lui_hud["text"] = [];
 }
 
 /@
@@ -64,16 +64,16 @@ function show_shader( shader, alignment = LUI_HUDELEM_ALIGNMENT_CENTER, x = 0, y
 		
 		data.hud = self OpenLUIMenu( "HudElementImage" );
 		data.type = "image";
-		data.idx = self.lui_hud.image.size;
+		data.idx = self.lui_hud["image"].size;
 
 		self SetLUIMenuData( data.hud, "alignment", alignment );
 		self SetLUIMenuData( data.hud, "x", x );
 		self SetLUIMenuData( data.hud, "y", y );
-		self SetLUIMenuData( data.hud, "width", width );
+		self SetLUIMenuData( data.hud, "width", SCREEN_WIDTH );
 		
 		self SetLUIMenuData( data.hud, "material", shader );
 
-		self.lui_hud.image[ data.idx ] = data.hud;
+		self.lui_hud["image"][ data.idx ] = data.hud;
 
 		if ( auto_clear )
 		{
@@ -136,7 +136,7 @@ function show_msg( msg, alignment = LUI_HUDELEM_ALIGNMENT_CENTER, x = 0, y = 0, 
 		
 		data.hud = self OpenLUIMenu( "HudElementText" );
 		data.type = "text";
-		data.idx = self.lui_hud.text.size;
+		data.idx = self.lui_hud["text"].size;
 
 		self SetLUIMenuData( data.hud, "alignment", alignment );
 		self SetLUIMenuData( data.hud, "x", x );
@@ -146,7 +146,7 @@ function show_msg( msg, alignment = LUI_HUDELEM_ALIGNMENT_CENTER, x = 0, y = 0, 
 		
 		self SetLUIMenuData( data.hud, "text", msg );
 
-		self.lui_hud.text[ data.idx ] = data.hud;
+		self.lui_hud["text"][ data.idx ] = data.hud;
 
 		if ( auto_clear )
 		{
@@ -213,9 +213,8 @@ function clear_lui_menu( lui_data )
 
 	if ( isdefined( lui_data ) )
 	{
-		arr = ( lui_data.type == "image" ? self.lui_menu.image : self.lui_menu.text );
 		self CloseLUIMenu( lui_data.hud );
-		ArrayRemoveIndex( arr, lui_data.idx, true );
+		ArrayRemoveIndex( self.lui_hud[ lui_data.type ], lui_data.idx, true );
 
 		self notify( "lui_menu_remove_" + lui_data.idx );
 	}
