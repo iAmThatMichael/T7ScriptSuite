@@ -25,6 +25,7 @@
 // #using scripts\m_shared\trigger_shared;
 #using scripts\m_shared\util_shared;
 
+#precache( "material", "specialty_fastreload_zombies" );
 
 function autoexec init()
 {
@@ -105,7 +106,7 @@ function test_lui_msg()
 
 function test_lui_shader()
 {
-	self thread m_lui::show_shader_for_time( "t7_hud_waypoints_contested_koth", 5, LUI_HUDELEM_ALIGNMENT_CENTER, 256, 256 );
+	self thread m_lui::show_shader_for_time( "specialty_fastreload_zombies", 5, LUI_HUDELEM_ALIGNMENT_CENTER, 0, 320, 256, 256 );
 }
 
 // ---------------
