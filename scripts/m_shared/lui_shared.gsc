@@ -23,6 +23,10 @@
 
 #namespace m_lui;
 
+#precache( "lui_menu", "HudElementText" );
+#precache( "lui_menu", "HudElementImage" );
+#precache( "lui_menu", "HudElementTimer" );
+
 function autoexec init()
 {
 	callback::on_spawned( &on_player_spawned );
@@ -39,19 +43,17 @@ function on_player_spawned()
 
 /@
 "Author: [TxM] WARDOG"
-"Name: m_lui::show_shader( <shader>, [alignment], [x], [y], [width], [color] )"
+"Name: m_lui::show_shader( <shader>, [alignment], [x], [y], [auto_clear] )"
 "Summary: Displays a shader using the LUI system"
 "Module: LUI"
 "MandatoryArg: <shader> : the shader material that will be displayed"
 "OptionalArg: [alignment] : select an alignment style using shared.gsh LUI_HUDELEM_ALIGNMENT_X"
 "OptionalArg: [x] : x position for the message"
 "OptionalArg: [y] : y position for the message"
-"OptionalArg: [width] : width for the message"
-"OptionalArg: [color] : color for the message"
 "OptionalArg: [auto_clear] : automatically clear the shader on death, downed, or game end"
-"Example: player m_lui::show_shader( "specialty_fastreload_zombies", LUI_HUDELEM_ALIGNMENT_CENTER, 0, 320, SCREEN_WIDTH, WHITE ); "
+"Example: player m_lui::show_shader( "specialty_fastreload_zombies", LUI_HUDELEM_ALIGNMENT_CENTER, 0, 320 ); "
 @/
-function show_shader( shader, alignment = LUI_HUDELEM_ALIGNMENT_CENTER, x = 0, y = 0, width = SCREEN_WIDTH, color = WHITE, auto_clear = true )
+function show_shader( shader, alignment = LUI_HUDELEM_ALIGNMENT_CENTER, x = 0, y = 0, auto_clear = true )
 {
 	self endon( "death" );
 	self endon( "disconnect" );
@@ -68,7 +70,6 @@ function show_shader( shader, alignment = LUI_HUDELEM_ALIGNMENT_CENTER, x = 0, y
 		self SetLUIMenuData( data.hud, "x", x );
 		self SetLUIMenuData( data.hud, "y", y );
 		self SetLUIMenuData( data.hud, "width", width );
-		self lui::set_color( data.hud, color );
 		
 		self SetLUIMenuData( data.hud, "material", shader );
 
@@ -86,7 +87,7 @@ function show_shader( shader, alignment = LUI_HUDELEM_ALIGNMENT_CENTER, x = 0, y
 
 /@
 "Author: [TxM] WARDOG"
-"Name: m_lui::show_shader_for_time( <shader>, <time> [alignment], [x], [y], [width], [color] )"
+"Name: m_lui::show_shader_for_time( <shader>, <time>, [alignment], [x], [y], [auto_clear] )"
 "Summary: Displays a shader for some time using the LUI system"
 "Module: LUI"
 "MandatoryArg: <shader> : the shader material that will be displayed"
@@ -94,17 +95,15 @@ function show_shader( shader, alignment = LUI_HUDELEM_ALIGNMENT_CENTER, x = 0, y
 "OptionalArg: [alignment] : select an alignment style using shared.gsh LUI_HUDELEM_ALIGNMENT_X"
 "OptionalArg: [x] : x position for the message"
 "OptionalArg: [y] : y position for the message"
-"OptionalArg: [width] : width for the message"
-"OptionalArg: [color] : color for the message"
 "OptionalArg: [auto_clear] : automatically clear the shader on death, downed, or game end"
-"Example: player m_lui::show_shader_for_time( "specialty_fastreload_zombies", 10, LUI_HUDELEM_ALIGNMENT_CENTER, 0, 320, SCREEN_WIDTH, WHITE ); "
+"Example: player m_lui::show_shader_for_time( "specialty_fastreload_zombies", 10, LUI_HUDELEM_ALIGNMENT_CENTER, 0, 320 ); "
 @/
-function show_shader_for_time( shader, time = 5, alignment = LUI_HUDELEM_ALIGNMENT_CENTER, x = 0, y = 0, width = SCREEN_WIDTH, color = WHITE, auto_clear = true )
+function show_shader_for_time( shader, time = 5, alignment = LUI_HUDELEM_ALIGNMENT_CENTER, x = 0, y = 0, auto_clear = true )
 {
 	self endon( "death" );
 	self endon( "disconnect" );
 
-	lui_data = self show_shader( shader, alignment, x, y, width, color, auto_clear );
+	lui_data = self show_shader( shader, alignment, x, y, auto_clear );
 
 	if ( isdefined( time ) && time > 0 )
 	{
@@ -115,19 +114,18 @@ function show_shader_for_time( shader, time = 5, alignment = LUI_HUDELEM_ALIGNME
 
 /@
 "Author: DidUknowiPwn"
-"Name: m_lui::show_msg( <msg>, [alignment], [x], [y], [width], [color] )"
+"Name: m_lui::show_msg( <msg>, [alignment], [x], [y], [color] )"
 "Summary: Displays a message using the LUI system"
 "Module: LUI"
 "MandatoryArg: <msg> : the value to convert to a string"
 "OptionalArg: [alignment] : select an alignment style using shared.gsh LUI_HUDELEM_ALIGNMENT_X"
 "OptionalArg: [x] : x position for the message"
 "OptionalArg: [y] : y position for the message"
-"OptionalArg: [width] : width for the message"
 "OptionalArg: [color] : color for the message"
 "OptionalArg: [auto_clear] : automatically clear the text on death, downed, or game end"
-"Example: player m_lui::show_msg( "ModTools!", LUI_HUDELEM_ALIGNMENT_CENTER, 0, 320, SCREEN_WIDTH, WHITE ); "
+"Example: player m_lui::show_msg( "ModTools!", LUI_HUDELEM_ALIGNMENT_CENTER, 0, 320, WHITE ); "
 @/
-function show_msg( msg, alignment = LUI_HUDELEM_ALIGNMENT_CENTER, x = 0, y = 0, width = SCREEN_WIDTH, color = WHITE, auto_clear = true )
+function show_msg( msg, alignment = LUI_HUDELEM_ALIGNMENT_CENTER, x = 0, y = 0, color = WHITE, auto_clear = true )
 {
 	self endon( "death" );
 	self endon( "disconnect" );
@@ -143,10 +141,10 @@ function show_msg( msg, alignment = LUI_HUDELEM_ALIGNMENT_CENTER, x = 0, y = 0, 
 		self SetLUIMenuData( data.hud, "alignment", alignment );
 		self SetLUIMenuData( data.hud, "x", x );
 		self SetLUIMenuData( data.hud, "y", y );
-		self SetLUIMenuData( data.hud, "width", width );
+		self SetLUIMenuData( data.hud, "width", SCREEN_WIDTH );
 		self lui::set_color( data.hud, color );
 		
-		self SetLUIMenuData( data.hud, "text", text );
+		self SetLUIMenuData( data.hud, "text", msg );
 
 		self.lui_hud.text[ data.idx ] = data.hud;
 
@@ -162,7 +160,7 @@ function show_msg( msg, alignment = LUI_HUDELEM_ALIGNMENT_CENTER, x = 0, y = 0, 
 
 /@
 "Author: DidUknowiPwn"
-"Name: m_lui::show_msg( <msg>, <time>, [alignment], [x], [y], [width], [color] )"
+"Name: m_lui::show_msg( <msg>, <time>, [alignment], [x], [y], [color] )"
 "Summary: Displays a message for some time using the LUI system"
 "Module: LUI"
 "MandatoryArg: <msg> : the value to convert to a string"
@@ -170,17 +168,16 @@ function show_msg( msg, alignment = LUI_HUDELEM_ALIGNMENT_CENTER, x = 0, y = 0, 
 "OptionalArg: [alignment] : select an alignment style using shared.gsh LUI_HUDELEM_ALIGNMENT_X"
 "OptionalArg: [x] : x position for the message"
 "OptionalArg: [y] : y position for the message"
-"OptionalArg: [width] : width for the message"
 "OptionalArg: [color] : color for the message"
 "OptionalArg: [auto_clear] : automatically clear the text on death, downed, or game end"
-"Example: player m_lui::show_msg( "ModTools!", 10, LUI_HUDELEM_ALIGNMENT_CENTER, 0, 320, SCREEN_WIDTH, WHITE ); "
+"Example: player m_lui::show_msg( "ModTools!", 10, LUI_HUDELEM_ALIGNMENT_CENTER, 0, 320, WHITE ); "
 @/
-function show_msg_for_time( msg, time = 5, alignment = LUI_HUDELEM_ALIGNMENT_CENTER, x = 0, y = 0, width = SCREEN_WIDTH, color = WHITE, auto_clear = true )
+function show_msg_for_time( msg, time = 5, alignment = LUI_HUDELEM_ALIGNMENT_CENTER, x = 0, y = 0, color = WHITE, auto_clear = true )
 {
 	self endon( "death" );
 	self endon( "disconnect" );
 
-	lui_data = self show_msg( msg, alignment, x, y, width, color, auto_clear );
+	lui_data = self show_msg( msg, alignment, x, y, color, auto_clear );
 
 	if ( isdefined( time ) && time > 0 )
 	{
@@ -195,7 +192,7 @@ function clear_lui_menu_on_death_or_downed( lui_data )
 	self endon( "disconnect" );
 	self endon( "lui_menu_remove_" + lui_data.idx );
 
-	self util::waitill_either( "death", "player_downed" );
+	self util::waittill_either( "death", "player_downed" );
 
 	self thread clear_lui_menu( lui_data );
 }
@@ -204,7 +201,7 @@ function clear_lui_menu_on_end( lui_data )
 {
 	self endon( "disconnect" );
 	self endon( "lui_menu_remove_" + lui_data.idx );
-	//							MP 				ZM
+
 	level util::waittill_either( "game_ended", "end_game" );
 
 	self thread clear_lui_menu( lui_data );
@@ -216,7 +213,7 @@ function clear_lui_menu( lui_data )
 
 	if ( isdefined( lui_data ) )
 	{
-		arr = ( type == "image" ? self.lui_menu.image : self.lui_menu.text );
+		arr = ( lui_data.type == "image" ? self.lui_menu.image : self.lui_menu.text );
 		self CloseLUIMenu( lui_data.hud );
 		ArrayRemoveIndex( arr, lui_data.idx, true );
 

@@ -34,14 +34,9 @@ function lock( stance = self GetStance() )
 {
 	// override player velocity to "completely" lock
 	self SetVelocity( (0,0,0) );
-	// stances -- Allow<> functions currently busted with MP
 	self SetStance( stance );
-	if ( stance != "crouch" )
-		self AllowCrouch( false );
-	if ( stance != "prone" ) 
-		self AllowProne( false );
-	if ( stance != "stand" ) 
-		self AllowStand( false );
+	// stances -- broken in MP, ZM works
+	self AllowedStances( stance );
 	// movements
 	self AllowJump( false );
 	self AllowMelee( false );

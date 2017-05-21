@@ -20,7 +20,12 @@
 
 // T7ScriptSuite scripts
 #using scripts\m_shared\array_shared;
+#using scripts\m_shared\lui_shared;
 #using scripts\m_shared\player_shared;
+// #using scripts\m_shared\trigger_shared;
+#using scripts\m_shared\util_shared;
+
+#precache( "material", "t7_hud_waypoints_contested_koth" );
 
 function autoexec init()
 {
@@ -47,9 +52,31 @@ function on_player_spawned()
 	while( !IS_TRUE( level.prematch_over ) )
 		WAIT_SERVER_FRAME;
 
+	self thread test_player();
+	self thread test_lui();
+	self thread test_util();
+}
+
+function test_player()
+{
 	self thread test_lock_release();
 }
-// testing lock & release
+
+function test_lui()
+{
+	self thread test_lui_msg();
+	self thread test_lui_shader();
+}
+
+function test_util()
+{
+	self thread test_get_team_count();
+}
+
+// ---------------
+// PLAYER CODE 
+// ---------------
+
 function test_lock_release()
 {
 	self endon( "death" );
@@ -66,4 +93,27 @@ function test_lock_release()
 		self IPrintLn( "Released" );
 		self m_player::release();
 	}
+}
+
+// ---------------
+// LUI CODE 
+// ---------------
+
+function test_lui_msg()
+{
+	self thread m_lui::show_msg_for_time( "COOKIES!", 5, LUI_HUDELEM_ALIGNMENT_CENTER, 0, 320, RED );
+}
+
+function test_lui_shader()
+{
+	self thread m_lui::show_shader_for_time( "t7_hud_waypoints_contested_koth", 5, LUI_HUDELEM_ALIGNMENT_CENTER, 256, 256 );
+}
+
+// ---------------
+// UTIL CODE 
+// ---------------
+
+function test_get_team_count()
+{
+	IPrintLn( "Total players in: " + self.team + " " + m_util::get_team_count( self.team ) );
 }
