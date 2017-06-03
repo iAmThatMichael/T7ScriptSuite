@@ -121,11 +121,10 @@ function show_msg_for_time( msg, time = 5, alignment = LUI_HUDELEM_ALIGNMENT_CEN
 
 /@
 "Author: [TxM] WARDOG"
-"Name: m_lui::show_shader( <shader>, [alignment], [x], [y], [width], [height], [alpha], [auto_clear] )"
+"Name: m_lui::show_shader( <shader>, [x], [y], [width], [height], [alpha], [auto_clear] )"
 "Summary: Displays a shader using the LUI system"
 "Module: LUI"
 "MandatoryArg: <shader> : the shader material that will be displayed"
-"OptionalArg: [alignment] : select an alignment style using shared.gsh LUI_HUDELEM_ALIGNMENT_X"
 "OptionalArg: [x] : x position for the shader"
 "OptionalArg: [y] : y position for the shader"
 "OptionalArg: [width] : width for the shader"
@@ -134,7 +133,7 @@ function show_msg_for_time( msg, time = 5, alignment = LUI_HUDELEM_ALIGNMENT_CEN
 "OptionalArg: [auto_clear] : automatically clear the shader on death, downed, or game end"
 "Example: shader = player m_lui::show_shader( "specialty_fastreload_zombies", LUI_HUDELEM_ALIGNMENT_CENTER, 0, 320 );"
 @/
-function show_shader( shader, alignment = LUI_HUDELEM_ALIGNMENT_CENTER, x = 0, y = 0, width = 128, height = 128, alpha = 1, auto_clear = true )
+function show_shader( shader, x = 0, y = 0, width = 128, height = 128, alpha = 1, auto_clear = true )
 {
 	self endon( "death" );
 	self endon( "disconnect" );
@@ -147,7 +146,7 @@ function show_shader( shader, alignment = LUI_HUDELEM_ALIGNMENT_CENTER, x = 0, y
 		data.type = "image";
 		data.idx = self.lui_hud["image"].size;
 
-		self SetLUIMenuData( data.hud, "alignment", alignment );
+		self SetLUIMenuData( data.hud, "alignment", LUI_HUDELEM_ALIGNMENT_CENTER );
 		self SetLUIMenuData( data.hud, "x", x );
 		self SetLUIMenuData( data.hud, "y", y );
 		self SetLUIMenuData( data.hud, "width", width );
@@ -170,26 +169,25 @@ function show_shader( shader, alignment = LUI_HUDELEM_ALIGNMENT_CENTER, x = 0, y
 
 /@
 "Author: [TxM] WARDOG"
-"Name: m_lui::show_shader_for_time( <shader>, <time>, [alignment], [x], [y], [width], [height], [alpha], [auto_clear] )"
+"Name: m_lui::show_shader_for_time( <shader>, <time>, [x], [y], [width], [height], [alpha], [auto_clear] )"
 "Summary: Displays a shader for some time using the LUI system"
 "Module: LUI"
 "MandatoryArg: <shader> : the shader material that will be displayed"
 "MandatoryArg: [time] : the total time to display the shader"
-"OptionalArg: [alignment] : select an alignment style using shared.gsh LUI_HUDELEM_ALIGNMENT_X"
 "OptionalArg: [x] : x position for the shader"
 "OptionalArg: [y] : y position for the shader"
 "OptionalArg: [width] : width for the shader"
 "OptionalArg: [height] : height for the shader"
 "OptionalArg: [alpha] : alpha for the shader"
 "OptionalArg: [auto_clear] : automatically clear the shader on death, downed, or game end"
-"Example: player m_lui::show_shader_for_time( "specialty_fastreload_zombies", 10, LUI_HUDELEM_ALIGNMENT_CENTER, 0, 320 );"
+"Example: player m_lui::show_shader_for_time( "specialty_fastreload_zombies", 10, 0, 320 );"
 @/
-function show_shader_for_time( shader, time = 5, alignment = LUI_HUDELEM_ALIGNMENT_CENTER, x = 0, y = 0, width = 128, height = 128, alpha = 1, auto_clear = true )
+function show_shader_for_time( shader, time = 5, x = 0, y = 0, width = 128, height = 128, alpha = 1, auto_clear = true )
 {
 	self endon( "death" );
 	self endon( "disconnect" );
 
-	lui_data = self show_shader( shader, alignment, x, y, width, height, alpha, auto_clear );
+	lui_data = self show_shader( shader, x, y, width, height, alpha, auto_clear );
 
 	if ( isdefined( time ) && time > 0 )
 	{
