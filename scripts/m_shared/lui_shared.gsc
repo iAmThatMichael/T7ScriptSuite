@@ -201,7 +201,7 @@ function show_shader_for_time( shader, time = 5, alignment = LUI_HUDELEM_ALIGNME
 function clear_lui_menu_on_death_or_downed( lui_data )
 {
 	self endon( "disconnect" );
-	self endon( "lui_menu_remove_" + lui_data.idx );
+	self endon( "lui_menu_remove_" + lui_data.type + "_" + lui_data.idx );
 
 	self util::waittill_either( "death", "player_downed" );
 
@@ -211,7 +211,7 @@ function clear_lui_menu_on_death_or_downed( lui_data )
 function clear_lui_menu_on_end( lui_data )
 {
 	self endon( "disconnect" );
-	self endon( "lui_menu_remove_" + lui_data.idx );
+	self endon( "lui_menu_remove_" + lui_data.type + "_" + lui_data.idx );
 
 	level util::waittill_either( "game_ended", "end_game" );
 
@@ -227,6 +227,6 @@ function clear_lui_menu( lui_data )
 		self CloseLUIMenu( lui_data.hud );
 		ArrayRemoveIndex( self.lui_hud[ lui_data.type ], lui_data.idx, true );
 
-		self notify( "lui_menu_remove_" + lui_data.idx );
+		self notify( "lui_menu_remove_" + lui_data.type + "_" + lui_data.idx );
 	}
 }

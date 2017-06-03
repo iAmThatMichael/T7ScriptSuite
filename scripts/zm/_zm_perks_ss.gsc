@@ -8,7 +8,6 @@
 // Started: June 1, 2017
 // ==========================================================
 
-
 #using scripts\codescripts\struct;
 
 #using scripts\shared\array_shared;
