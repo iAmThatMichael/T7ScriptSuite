@@ -25,28 +25,31 @@
 
 /@
 "Author: DidUknowiPwn"
-"Name: m_trigger::create_trigger( [type], ... )"
+"Name: m_trigger::create_trigger( <type>, <origin>, <radius>, <height>, [SPAWNFLAGS] = 0 )""
 "Summary: Create a trigger type with assigned properties."
 "Module: Utility"
-"MandatoryArg: <type> : the trigger type"
-"MandatoryArg: <properties> : the properties to define the trigger"
-"Example: WIP"
+"MandatoryArg: <type> : type of the trigger"
+"MandatoryArg: <origin> : origin of the trigger"
+"MandatoryArg: <radius> : radius of the trigger"
+"MandatoryArg: <height> : height of the trigger"
+"OptionalArg: [SPAWNFLAGS] : spawnflags -- shouldn't be touching unless know what to do"
+"Example: trig = m_trigger::create_trigger( "radius", (0,0,0), 32, 32 );"
 @/
-function create_trigger( type )
+function create_trigger( type, origin, radius, height, SPAWNFLAGS = 0 )
 {
-	if( !trigger::_is_valid_trigger_type( type ) )
+	if ( !isdefined( type ) )
 	{
-		AssertMsg( "Unknown trigger type: " + type + " -- m_trigger::create_trigger_type" );
+		Assert( isdefined( type ), "missing type of trigger in m_trigger::create_trigger" );
 		return undefined;
 	}
 
-
-}
-
-function retrieve_spawnflags( type )
-{
-	switch( type )
+	if ( StrTok( type, "radius" ) || StrTok( type, "use" ) )
 	{
-
+		AssertMsg( "only supports radius or use trigger's in m_trigger::create_trigger -- " + type );
+		return undefined;
 	}
+
+	name = "trigger_" + type;
+	ent = Spawn( name, origin, SPAWNFLAGS, radius, height );
+	return ent;
 }

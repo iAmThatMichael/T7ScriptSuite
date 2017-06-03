@@ -25,7 +25,7 @@
 // #using scripts\m_shared\trigger_shared;
 #using scripts\m_shared\util_shared;
 
-#precache( "material", "specialty_fastreload_zombies" );
+#precache( "material", "t7_hud_zm_powerup_deathmachine" );
 
 function autoexec init()
 {
@@ -59,7 +59,7 @@ function on_player_spawned()
 
 function test_player()
 {
-	self thread test_lock_release();
+	// self thread test_lock_release();
 }
 
 function test_lui()
@@ -70,7 +70,7 @@ function test_lui()
 
 function test_util()
 {
-	self thread test_get_team_count();
+	// self thread test_get_team_count();
 }
 
 // ---------------
@@ -101,12 +101,13 @@ function test_lock_release()
 
 function test_lui_msg()
 {
-	self thread m_lui::show_msg_for_time( "COOKIES!", 5, LUI_HUDELEM_ALIGNMENT_CENTER, 0, 320, RED );
+	// self thread m_lui::show_msg_for_time( "COOKIES!", 5, LUI_HUDELEM_ALIGNMENT_CENTER, 0, 320, RED );
 }
 
 function test_lui_shader()
 {
-	self thread m_lui::show_shader_for_time( "specialty_fastreload_zombies", 5, LUI_HUDELEM_ALIGNMENT_CENTER, 0, 320, 256, 256 );
+	// self thread m_lui::show_shader_for_time( "t7_hud_zm_powerup_deathmachine", 5, LUI_HUDELEM_ALIGNMENT_CENTER, 0, 320, 256, 256 );
+	// self thread m_lui::show_shader_for_time( "t7_hud_zm_powerup_deathmachine", 5, LUI_HUDELEM_ALIGNMENT_CENTER, 100, 320, 128, 128 );
 }
 
 // ---------------

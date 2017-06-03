@@ -53,7 +53,7 @@ function on_player_spawned()
 "OptionalArg: [color] : color for the message"
 "OptionalArg: [alpha] : alpha for the message"
 "OptionalArg: [auto_clear] : automatically clear the text on death, downed, or game end"
-"Example: player m_lui::show_msg( "ModTools!", LUI_HUDELEM_ALIGNMENT_CENTER, 0, 320, WHITE, alpha ); "
+"Example: msg = player m_lui::show_msg( "ModTools!", LUI_HUDELEM_ALIGNMENT_CENTER, 0, 320, WHITE, alpha );"
 @/
 function show_msg( msg, alignment = LUI_HUDELEM_ALIGNMENT_CENTER, x = 0, y = 0, color = WHITE, alpha = 1, auto_clear = true )
 {
@@ -91,7 +91,7 @@ function show_msg( msg, alignment = LUI_HUDELEM_ALIGNMENT_CENTER, x = 0, y = 0, 
 
 /@
 "Author: DidUknowiPwn"
-"Name: m_lui::show_msg( <msg>, <time>, [alignment], [x], [y], [color], [alpha] )"
+"Name: m_lui::show_msg_for_time( <msg>, <time>, [alignment], [x], [y], [color], [alpha] )"
 "Summary: Displays a message for some time using the LUI system"
 "Module: LUI"
 "MandatoryArg: <msg> : the value to convert to a string"
@@ -102,7 +102,7 @@ function show_msg( msg, alignment = LUI_HUDELEM_ALIGNMENT_CENTER, x = 0, y = 0, 
 "OptionalArg: [color] : color for the message"
 "OptionalArg: [alpha] : alpha for the message"
 "OptionalArg: [auto_clear] : automatically clear the text on death, downed, or game end"
-"Example: player m_lui::show_msg( "ModTools!", 10, LUI_HUDELEM_ALIGNMENT_CENTER, 0, 320, WHITE ); "
+"Example: player m_lui::show_msg_for_time( "ModTools!", 10, LUI_HUDELEM_ALIGNMENT_CENTER, 0, 320, WHITE );"
 @/
 function show_msg_for_time( msg, time = 5, alignment = LUI_HUDELEM_ALIGNMENT_CENTER, x = 0, y = 0, color = WHITE, alpha = 1, auto_clear = true )
 {
@@ -132,7 +132,7 @@ function show_msg_for_time( msg, time = 5, alignment = LUI_HUDELEM_ALIGNMENT_CEN
 "OptionalArg: [height] : height for the shader"
 "OptionalArg: [alpha] : alpha for the shader"
 "OptionalArg: [auto_clear] : automatically clear the shader on death, downed, or game end"
-"Example: player m_lui::show_shader( "specialty_fastreload_zombies", LUI_HUDELEM_ALIGNMENT_CENTER, 0, 320 ); "
+"Example: shader = player m_lui::show_shader( "specialty_fastreload_zombies", LUI_HUDELEM_ALIGNMENT_CENTER, 0, 320 );"
 @/
 function show_shader( shader, alignment = LUI_HUDELEM_ALIGNMENT_CENTER, x = 0, y = 0, width = 128, height = 128, alpha = 1, auto_clear = true )
 {
@@ -182,7 +182,7 @@ function show_shader( shader, alignment = LUI_HUDELEM_ALIGNMENT_CENTER, x = 0, y
 "OptionalArg: [height] : height for the shader"
 "OptionalArg: [alpha] : alpha for the shader"
 "OptionalArg: [auto_clear] : automatically clear the shader on death, downed, or game end"
-"Example: player m_lui::show_shader_for_time( "specialty_fastreload_zombies", 10, LUI_HUDELEM_ALIGNMENT_CENTER, 0, 320 ); "
+"Example: player m_lui::show_shader_for_time( "specialty_fastreload_zombies", 10, LUI_HUDELEM_ALIGNMENT_CENTER, 0, 320 );"
 @/
 function show_shader_for_time( shader, time = 5, alignment = LUI_HUDELEM_ALIGNMENT_CENTER, x = 0, y = 0, width = 128, height = 128, alpha = 1, auto_clear = true )
 {

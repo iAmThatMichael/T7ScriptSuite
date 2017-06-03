@@ -33,6 +33,7 @@
 @/
 function to_string( convert, append_str = "" )
 {
+	// also usable is STR()/STR_DEFAULT() within shared.gsh
 	if ( IsString( convert ) )
 		return convert;
 
@@ -54,7 +55,7 @@ function to_string( convert, append_str = "" )
 "Name: m_util::get_team_count( <team> )"
 "Summary: Gets the total of players in a team"
 "Module: Utility"
-"MandatoryArg: <team> : the value to convert to a string"
+"MandatoryArg: <team> : team to return"
 "Example: num = m_util::get_team_count( "axis" );"
 @/
 function get_team_count( team = "allies" )
@@ -62,4 +63,27 @@ function get_team_count( team = "allies" )
 	Assert( isdefined( level.playerCount[ team ] ), "Unknown team passed in m_util::get_team_count() - " + team );
 
 	return level.playerCount[ team ];
+}
+
+/@
+"Author: DidUknowiPwn"
+"Name: m_util::get_players_in_team( <team> )"
+"Summary: Gets an array of players in a team"
+"Module: Utility"
+"MandatoryArg: <team> : team to return"
+"Example: num = m_util::get_team_count( "axis" );"
+@/
+function get_players_in_team( team = "allies" )
+{
+	Assert( isdefined( level.teams[ team ] ), "Unknown team passed in m_util::get_players_in_team() - " + team );
+
+	players = [];
+
+	foreach ( player in level.players )
+	{
+		if ( player.team == team )
+			ARRAY_ADD( players, player );
+	}
+
+	return players;
 }

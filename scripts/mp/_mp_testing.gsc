@@ -59,7 +59,7 @@ function on_player_spawned()
 
 function test_player()
 {
-	self thread test_lock_release();
+	// self thread test_lock_release();
 }
 
 function test_lui()
@@ -70,7 +70,7 @@ function test_lui()
 
 function test_util()
 {
-	self thread test_get_team_count();
+	// self thread test_get_team_count();
 }
 
 // ---------------
