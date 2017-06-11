@@ -55,7 +55,7 @@ function on_player_spawned()
 "OptionalArg: [auto_clear] : automatically clear the text on death, downed, or game end"
 "Example: text = player m_lui::show_text( "ModTools!", LUI_HUDELEM_ALIGNMENT_CENTER, 0, 320, WHITE, alpha );"
 @/
-function show_text( text, alignment = LUI_HUDELEM_ALIGNMENT_CENTER, x = 0, y = 0, color = WHITE, alpha = 1, auto_clear = true )
+function show_text( msg, alignment = LUI_HUDELEM_ALIGNMENT_CENTER, x = 0, y = 0, color = WHITE, alpha = 1, auto_clear = true, height )
 {
 	self endon( "death" );
 	self endon( "disconnect" );
@@ -72,7 +72,8 @@ function show_text( text, alignment = LUI_HUDELEM_ALIGNMENT_CENTER, x = 0, y = 0
 		self SetLUIMenuData( data.hud, "x", x );
 		self SetLUIMenuData( data.hud, "y", y );
 		self SetLUIMenuData( data.hud, "width", SCREEN_WIDTH );
-		//self SetLUIMenuData( data.hud, "height", SCREEN_HEIGHT );
+		if(isDefined(height))
+			self SetLUIMenuData( data.hud, "height", height );
 		self SetLUIMenuData( data.hud, "alpha", alpha );
 		self lui::set_color( data.hud, color );
 
@@ -92,32 +93,54 @@ function show_text( text, alignment = LUI_HUDELEM_ALIGNMENT_CENTER, x = 0, y = 0
 
 /@
 "Author: DidUknowiPwn"
-"Name: m_lui::show_text_for_time( <text>, <time>, [alignment], [x], [y], [color], [alpha] )"
+"Name: m_lui::show_text_for_time( <msg>, <time>, [fadein], [fadeout], [alignment], [x], [y], [color], [alpha] )"
 "Summary: Displays a message for some time using the LUI system"
 "Module: LUI"
-"MandatoryArg: <text> : the text to display"
-"MandatoryArg: [time] : the total time to display the text"
+"MandatoryArg: <msg> : the value to convert to a string"
+"MandatoryArg: [time] : the total time to display the string"
+"OptionalArg: [fadein] : the time for the element to fade in"
+"OptionalArg: [fadeout] : the time for the element to fade out"
 "OptionalArg: [alignment] : select an alignment style using shared.gsh LUI_HUDELEM_ALIGNMENT_X"
 "OptionalArg: [x] : x position for the message"
 "OptionalArg: [y] : y position for the message"
 "OptionalArg: [color] : color for the message"
 "OptionalArg: [alpha] : alpha for the message"
 "OptionalArg: [auto_clear] : automatically clear the text on death, downed, or game end"
-"Example: player m_lui::show_text_for_time( "ModTools!", 10, LUI_HUDELEM_ALIGNMENT_CENTER, 0, 320, WHITE );"
+
+"Example: player m_lui::show_text_for_time( "ModTools!", 10, 1, 1, LUI_HUDELEM_ALIGNMENT_CENTER, 0, 320, WHITE );"
 @/
-function show_text_for_time( text, time = 5, alignment = LUI_HUDELEM_ALIGNMENT_CENTER, x = 0, y = 0, color = WHITE, alpha = 1, auto_clear = true )
+function show_text_for_time( msg, time = 5, fadein = 0, fadeout = 0, alignment = LUI_HUDELEM_ALIGNMENT_CENTER, x = 0, y = 0, color = WHITE, alpha = 1, auto_clear = true, height )
 {
+	self thread _show_text_for_time( msg, time, fadein, fadeout, alignment, x, y, color, alpha, auto_clear, height );
+}
+function _show_text_for_time( msg, time, fadein, fadeout, alignment, x, y, color, alpha, auto_clear, height )
+{
+	Assert(fadein + fadeout <= time, "Fade times must be collectively less than the total time");
+
 	self endon( "death" );
 	self endon( "disconnect" );
 
-	if ( !isdefined( text ) || !IsInt( time ) || time < 0 )
-		return;
+	lui_data = self show_text( msg, alignment, x, y, color, alpha, auto_clear, height );
 
-	lui_data = self show_text( text, alignment, x, y, color, alpha, auto_clear );
+	if ( isdefined( time ) && time > 0 )
+	{
+		if( fadein > 0 )
+		{
+			self thread fade_lui_menu(lui_data, fadein, 0, alpha);
+			time -= fadein;
+			wait( fadein );
+		}
 
-	wait time;
+		if( fadeout > 0 )
+		{
+			wait( time - fadeout );
+			time -= (time - fadeout);
+			self thread fade_lui_menu(lui_data, fadeout, alpha, 0);
+		}
 
-	self thread clear_lui_menu( lui_data );
+		wait( time );
+		self thread clear_lui_menu( lui_data );
+	}
 }
 
 /@
@@ -126,6 +149,7 @@ function show_text_for_time( text, time = 5, alignment = LUI_HUDELEM_ALIGNMENT_C
 "Summary: Displays a shader using the LUI system"
 "Module: LUI"
 "MandatoryArg: <shader> : the shader material that will be displayed"
+"OptionalArg: [alignment] : select an alignment style using shared.gsh LUI_HUDELEM_ALIGNMENT_X"
 "OptionalArg: [x] : x position for the shader"
 "OptionalArg: [y] : y position for the shader"
 "OptionalArg: [width] : width for the shader"
@@ -134,7 +158,7 @@ function show_text_for_time( text, time = 5, alignment = LUI_HUDELEM_ALIGNMENT_C
 "OptionalArg: [auto_clear] : automatically clear the shader on death, downed, or game end"
 "Example: shader = player m_lui::show_shader( "specialty_fastreload_zombies", 0, 320 );"
 @/
-function show_shader( shader, x = 0, y = 0, width = 128, height = 128, alpha = 1, auto_clear = true )
+function show_shader( shader, alignment = 0, x = 0, y = 0, width = 128, height = 128, alpha = 1, auto_clear = true )
 {
 	self endon( "death" );
 	self endon( "disconnect" );
@@ -146,6 +170,7 @@ function show_shader( shader, x = 0, y = 0, width = 128, height = 128, alpha = 1
 		data.hud = self OpenLUIMenu( "HudElementImage" );
 		data.type = "image";
 		data.idx = self.lui_hud["image"].size;
+    
 		// the shader spawns at bottom left 0 0, have to correct it to be centered
 		self SetLUIMenuData( data.hud, "x", Int( x + ( SCREEN_WIDTH/2 - width/2 ) ) );
 		self SetLUIMenuData( data.hud, "y", Int( y + ( SCREEN_HEIGHT/2 - height /2 ) ) );
@@ -174,26 +199,64 @@ function show_shader( shader, x = 0, y = 0, width = 128, height = 128, alpha = 1
 "Module: LUI"
 "MandatoryArg: <shader> : the shader material that will be displayed"
 "MandatoryArg: [time] : the total time to display the shader"
+"OptionalArg: [fadein] : the time for the element to fade in"
+"OptionalArg: [fadeout] : the time for the element to fade out"
+"OptionalArg: [fadeout] : the time for the element to fade out"
+"OptionalArg: [alignment] : select an alignment style using shared.gsh LUI_HUDELEM_ALIGNMENT_X"
 "OptionalArg: [x] : x position for the shader"
 "OptionalArg: [y] : y position for the shader"
 "OptionalArg: [width] : width for the shader"
 "OptionalArg: [height] : height for the shader"
 "OptionalArg: [alpha] : alpha for the shader"
 "OptionalArg: [auto_clear] : automatically clear the shader on death, downed, or game end"
-"Example: player m_lui::show_shader_for_time( "specialty_fastreload_zombies", 10, 0, 320 );"
+"Example: player m_lui::show_shader_for_time( "specialty_fastreload_zombies", 10, 1, 1, 0, 320 );"
 @/
-function show_shader_for_time( shader, time = 5, x = 0, y = 0, width = 128, height = 128, alpha = 1, auto_clear = true )
+function show_shader_for_time( shader, time = 5, fadein = 0, fadeout = 0, alignment = 0, x = 0, y = 0, width = 128, height = 128, alpha = 1, auto_clear = true ) 
 {
+	self thread _show_shader_for_time( shader, time, fadein, fadeout, alignment, x, y, width, height, alpha, auto_clear );
+}
+function _show_shader_for_time( shader, time, fadein, fadeout, alignment, x, y, width, height, alpha, auto_clear )
+{
+	Assert(fadein + fadeout <= time, "Fade times must be collectively less than the total time");
+
 	self endon( "death" );
 	self endon( "disconnect" );
 
-	if ( !isdefined( shader ) || !IsInt( time ) || time < 0 )
-		return;
+	lui_data = self show_shader( shader, alignment, x, y, width, height, alpha, auto_clear );
 
-	lui_data = self show_shader( shader, x, y, width, height, alpha, auto_clear );
+	if ( time > 0 )
+	{
+		if( fadein > 0 )
+		{
+			self thread fade_lui_menu(lui_data, fadein, 0, alpha);
+			time -= fadein;
+			wait( fadein );
+		}
 
-	wait time;
-	self thread clear_lui_menu( lui_data );
+		if( fadeout > 0 )
+		{
+			wait( time - fadeout );
+			time -= (time - fadeout);
+			self thread fade_lui_menu(lui_data, fadeout, alpha, 0);
+		}
+
+		wait( time );
+		self thread clear_lui_menu( lui_data );
+	}
+}
+
+function fade_lui_menu( lui_data, time, preAlpha, postAlpha )
+{
+	counter = time;
+
+	while( counter > 0 )
+	{
+		ratio = counter / time;
+		alpha = (preAlpha * ratio) + (postAlpha * ( 1 - ratio ));
+		self SetLUIMenuData( lui_data.hud, "alpha", alpha );
+		counter -= 0.05;
+		wait(0.05);
+	}
 }
 
 function clear_lui_menu_on_death_or_downed( lui_data )
