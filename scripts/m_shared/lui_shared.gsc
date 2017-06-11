@@ -43,24 +43,24 @@ function on_player_spawned()
 
 /@
 "Author: DidUknowiPwn"
-"Name: m_lui::show_msg( <msg>, [alignment], [x], [y], [color], [alpha] )"
+"Name: m_lui::show_text( <text>, [alignment], [x], [y], [color], [alpha] )"
 "Summary: Displays a message using the LUI system"
 "Module: LUI"
-"MandatoryArg: <msg> : the value to convert to a string"
+"MandatoryArg: <text> : the text to display"
 "OptionalArg: [alignment] : select an alignment style using shared.gsh LUI_HUDELEM_ALIGNMENT_X"
 "OptionalArg: [x] : x position for the message"
 "OptionalArg: [y] : y position for the message"
 "OptionalArg: [color] : color for the message"
 "OptionalArg: [alpha] : alpha for the message"
 "OptionalArg: [auto_clear] : automatically clear the text on death, downed, or game end"
-"Example: msg = player m_lui::show_msg( "ModTools!", LUI_HUDELEM_ALIGNMENT_CENTER, 0, 320, WHITE, alpha );"
+"Example: text = player m_lui::show_text( "ModTools!", LUI_HUDELEM_ALIGNMENT_CENTER, 0, 320, WHITE, alpha );"
 @/
-function show_msg( msg, alignment = LUI_HUDELEM_ALIGNMENT_CENTER, x = 0, y = 0, color = WHITE, alpha = 1, auto_clear = true, height )
+function show_text( msg, alignment = LUI_HUDELEM_ALIGNMENT_CENTER, x = 0, y = 0, color = WHITE, alpha = 1, auto_clear = true, height )
 {
 	self endon( "death" );
 	self endon( "disconnect" );
 
-	if ( IsString( msg ) && msg != "" )
+	if ( IsString( text ) && text != "" )
 	{
 		data = SpawnStruct();
 		
@@ -72,14 +72,12 @@ function show_msg( msg, alignment = LUI_HUDELEM_ALIGNMENT_CENTER, x = 0, y = 0, 
 		self SetLUIMenuData( data.hud, "x", x );
 		self SetLUIMenuData( data.hud, "y", y );
 		self SetLUIMenuData( data.hud, "width", SCREEN_WIDTH );
-
 		if(isDefined(height))
 			self SetLUIMenuData( data.hud, "height", height );
-
 		self SetLUIMenuData( data.hud, "alpha", alpha );
 		self lui::set_color( data.hud, color );
 
-		self SetLUIMenuData( data.hud, "text", msg );
+		self SetLUIMenuData( data.hud, "text", text );
 
 		self.lui_hud["text"][ data.idx ] = data.hud;
 
@@ -95,7 +93,7 @@ function show_msg( msg, alignment = LUI_HUDELEM_ALIGNMENT_CENTER, x = 0, y = 0, 
 
 /@
 "Author: DidUknowiPwn"
-"Name: m_lui::show_msg_for_time( <msg>, <time>, [fadein], [fadeout], [alignment], [x], [y], [color], [alpha] )"
+"Name: m_lui::show_text_for_time( <msg>, <time>, [fadein], [fadeout], [alignment], [x], [y], [color], [alpha] )"
 "Summary: Displays a message for some time using the LUI system"
 "Module: LUI"
 "MandatoryArg: <msg> : the value to convert to a string"
@@ -108,20 +106,21 @@ function show_msg( msg, alignment = LUI_HUDELEM_ALIGNMENT_CENTER, x = 0, y = 0, 
 "OptionalArg: [color] : color for the message"
 "OptionalArg: [alpha] : alpha for the message"
 "OptionalArg: [auto_clear] : automatically clear the text on death, downed, or game end"
-"Example: player m_lui::show_msg_for_time( "ModTools!", 10, 1, 1, LUI_HUDELEM_ALIGNMENT_CENTER, 0, 320, WHITE );"
+
+"Example: player m_lui::show_text_for_time( "ModTools!", 10, 1, 1, LUI_HUDELEM_ALIGNMENT_CENTER, 0, 320, WHITE );"
 @/
-function show_msg_for_time( msg, time = 5, fadein = 0, fadeout = 0, alignment = LUI_HUDELEM_ALIGNMENT_CENTER, x = 0, y = 0, color = WHITE, alpha = 1, auto_clear = true, height )
+function show_text_for_time( msg, time = 5, fadein = 0, fadeout = 0, alignment = LUI_HUDELEM_ALIGNMENT_CENTER, x = 0, y = 0, color = WHITE, alpha = 1, auto_clear = true, height )
 {
-	self thread _show_msg_for_time( msg, time, fadein, fadeout, alignment, x, y, color, alpha, auto_clear, height );
+	self thread _show_text_for_time( msg, time, fadein, fadeout, alignment, x, y, color, alpha, auto_clear, height );
 }
-function _show_msg_for_time( msg, time, fadein, fadeout, alignment, x, y, color, alpha, auto_clear, height )
+function _show_text_for_time( msg, time, fadein, fadeout, alignment, x, y, color, alpha, auto_clear, height )
 {
 	Assert(fadein + fadeout <= time, "Fade times must be collectively less than the total time");
 
 	self endon( "death" );
 	self endon( "disconnect" );
 
-	lui_data = self show_msg( msg, alignment, x, y, color, alpha, auto_clear, height );
+	lui_data = self show_text( msg, alignment, x, y, color, alpha, auto_clear, height );
 
 	if ( isdefined( time ) && time > 0 )
 	{
@@ -145,7 +144,7 @@ function _show_msg_for_time( msg, time, fadein, fadeout, alignment, x, y, color,
 }
 
 /@
-"Author: [TxM] WARDOG"
+"Author: DidUknowiPwn"
 "Name: m_lui::show_shader( <shader>, [x], [y], [width], [height], [alpha], [auto_clear] )"
 "Summary: Displays a shader using the LUI system"
 "Module: LUI"
@@ -157,7 +156,7 @@ function _show_msg_for_time( msg, time, fadein, fadeout, alignment, x, y, color,
 "OptionalArg: [height] : height for the shader"
 "OptionalArg: [alpha] : alpha for the shader"
 "OptionalArg: [auto_clear] : automatically clear the shader on death, downed, or game end"
-"Example: shader = player m_lui::show_shader( "specialty_fastreload_zombies", LUI_HUDELEM_ALIGNMENT_CENTER, 0, 320 );"
+"Example: shader = player m_lui::show_shader( "specialty_fastreload_zombies", 0, 320 );"
 @/
 function show_shader( shader, alignment = 0, x = 0, y = 0, width = 128, height = 128, alpha = 1, auto_clear = true )
 {
@@ -171,11 +170,10 @@ function show_shader( shader, alignment = 0, x = 0, y = 0, width = 128, height =
 		data.hud = self OpenLUIMenu( "HudElementImage" );
 		data.type = "image";
 		data.idx = self.lui_hud["image"].size;
-
-
-
-		self SetLUIMenuData( data.hud, "x", Int(640 - width/2) );
-		self SetLUIMenuData( data.hud, "y", y );
+    
+		// the shader spawns at bottom left 0 0, have to correct it to be centered
+		self SetLUIMenuData( data.hud, "x", Int( x + ( SCREEN_WIDTH/2 - width/2 ) ) );
+		self SetLUIMenuData( data.hud, "y", Int( y + ( SCREEN_HEIGHT/2 - height /2 ) ) );
 		self SetLUIMenuData( data.hud, "width", width );
 		self SetLUIMenuData( data.hud, "height", height );
 		self SetLUIMenuData( data.hud, "alpha", alpha );
@@ -195,8 +193,8 @@ function show_shader( shader, alignment = 0, x = 0, y = 0, width = 128, height =
 }
 
 /@
-"Author: [TxM] WARDOG"
-"Name: m_lui::show_shader_for_time( <shader>, <time>, [fadein], [fadeout], [alignement], [x], [y], [width], [height], [alpha], [auto_clear] )"
+"Author: DidUknowiPwn"
+"Name: m_lui::show_shader_for_time( <shader>, <time>, [x], [y], [width], [height], [alpha], [auto_clear] )"
 "Summary: Displays a shader for some time using the LUI system"
 "Module: LUI"
 "MandatoryArg: <shader> : the shader material that will be displayed"

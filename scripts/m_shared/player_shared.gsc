@@ -37,6 +37,8 @@ function lock( stance = self GetStance() )
 	self SetStance( stance );
 	// stances -- broken in MP, ZM works
 	self AllowedStances( stance );
+	if ( SessionModeIsMultiplayerGame() )
+		self thread loop_stance( stance );
 	// movements
 	self AllowJump( false );
 	self AllowMelee( false );
@@ -57,6 +59,8 @@ function lock( stance = self GetStance() )
 function release()
 {
 	// stances
+	if ( SessionModeIsMultiplayerGame() )
+		self notify( "release_player" );
 	self AllowCrouch( true );
 	self AllowProne( true );
 	self AllowStand( true );
@@ -68,4 +72,18 @@ function release()
 	// weapons
 	self EnableWeaponCycling(); 
 	self EnableOffhandWeapons(); 
+}
+
+function loop_stance( stance )
+{
+	self endon( "death" );
+	self endon( "disconnect" );
+	self endon( "entering_last_stand" ); // rejack
+	self endon( "release_player" );
+
+	while( true )
+	{
+		self SetStance( stance );
+		WAIT_SERVER_FRAME;
+	}
 }

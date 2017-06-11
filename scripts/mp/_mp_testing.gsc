@@ -59,7 +59,7 @@ function on_player_spawned()
 
 function test_player()
 {
-	// self thread test_lock_release();
+	//self thread test_lock_release();
 }
 
 function test_lui()
@@ -70,7 +70,7 @@ function test_lui()
 
 function test_util()
 {
-	// self thread test_get_team_count();
+	//self thread test_get_team_count();
 }
 
 // ---------------
@@ -86,10 +86,9 @@ function test_lock_release()
 	self IPrintLn( "Testing Lock & Release" );
 	foreach( stance in stances )
 	{
-		wait 1;
 		self IPrintLn( "Locked to " + stance );
 		self m_player::lock( stance );
-		wait 3;
+		wait 5;
 		self IPrintLn( "Released" );
 		self m_player::release();
 	}
@@ -101,12 +100,12 @@ function test_lock_release()
 
 function test_lui_msg()
 {
-	self thread m_lui::show_msg_for_time( "COOKIES!", 5, LUI_HUDELEM_ALIGNMENT_CENTER, 0, 320, RED );
+	self thread m_lui::show_text_for_time( "COOKIES!", 5, LUI_HUDELEM_ALIGNMENT_CENTER, 0, 320, RED );
 }
 
 function test_lui_shader()
 {
-	self thread m_lui::show_shader_for_time( "t7_hud_waypoints_contested_koth", 5, LUI_HUDELEM_ALIGNMENT_CENTER, 256, 256 );
+	self thread m_lui::show_shader_for_time( "t7_hud_waypoints_contested_koth", 5, 0, 0, 128, 128 );
 }
 
 // ---------------
