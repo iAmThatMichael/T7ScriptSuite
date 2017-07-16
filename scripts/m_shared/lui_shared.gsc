@@ -53,9 +53,9 @@ function on_player_spawned()
 "OptionalArg: [color] : color for the message"
 "OptionalArg: [alpha] : alpha for the message"
 "OptionalArg: [auto_clear] : automatically clear the text on death, downed, or game end"
-"Example: text = player m_lui::show_text( "ModTools!", LUI_HUDELEM_ALIGNMENT_CENTER, 0, 320, WHITE, alpha );"
+"Example: text = player m_lui::show_text( "ModTools!", LUI_HUDELEM_ALIGNMENT_CENTER, 0, 320, WHITE, alpha, height );"
 @/
-function show_text( msg, alignment = LUI_HUDELEM_ALIGNMENT_CENTER, x = 0, y = 0, color = WHITE, alpha = 1, auto_clear = true, height )
+function show_text( text, alignment = LUI_HUDELEM_ALIGNMENT_CENTER, x = 0, y = 0, color = WHITE, alpha = 1, auto_clear = true, height = 24 )
 {
 	self endon( "death" );
 	self endon( "disconnect" );
@@ -72,8 +72,7 @@ function show_text( msg, alignment = LUI_HUDELEM_ALIGNMENT_CENTER, x = 0, y = 0,
 		self SetLUIMenuData( data.hud, "x", x );
 		self SetLUIMenuData( data.hud, "y", y );
 		self SetLUIMenuData( data.hud, "width", SCREEN_WIDTH );
-		if(isDefined(height))
-			self SetLUIMenuData( data.hud, "height", height );
+		self SetLUIMenuData( data.hud, "height", height );
 		self SetLUIMenuData( data.hud, "alpha", alpha );
 		self lui::set_color( data.hud, color );
 
@@ -93,10 +92,10 @@ function show_text( msg, alignment = LUI_HUDELEM_ALIGNMENT_CENTER, x = 0, y = 0,
 
 /@
 "Author: DidUknowiPwn"
-"Name: m_lui::show_text_for_time( <msg>, <time>, [fadein], [fadeout], [alignment], [x], [y], [color], [alpha] )"
+"Name: m_lui::show_text_for_time( <text>, <time>, [fadein], [fadeout], [alignment], [x], [y], [color], [alpha] )"
 "Summary: Displays a message for some time using the LUI system"
 "Module: LUI"
-"MandatoryArg: <msg> : the value to convert to a string"
+"MandatoryArg: <text> : the value to convert to a string"
 "MandatoryArg: [time] : the total time to display the string"
 "OptionalArg: [fadein] : the time for the element to fade in"
 "OptionalArg: [fadeout] : the time for the element to fade out"
@@ -109,18 +108,19 @@ function show_text( msg, alignment = LUI_HUDELEM_ALIGNMENT_CENTER, x = 0, y = 0,
 
 "Example: player m_lui::show_text_for_time( "ModTools!", 10, 1, 1, LUI_HUDELEM_ALIGNMENT_CENTER, 0, 320, WHITE );"
 @/
-function show_text_for_time( msg, time = 5, fadein = 0, fadeout = 0, alignment = LUI_HUDELEM_ALIGNMENT_CENTER, x = 0, y = 0, color = WHITE, alpha = 1, auto_clear = true, height )
+function show_text_for_time( text, time = 5, fadein = 0, fadeout = 0, alignment = LUI_HUDELEM_ALIGNMENT_CENTER, x = 0, y = 0, color = WHITE, alpha = 1, auto_clear = true, height = 24 )
 {
-	self thread _show_text_for_time( msg, time, fadein, fadeout, alignment, x, y, color, alpha, auto_clear, height );
+	self thread _show_text_for_time( text, time, fadein, fadeout, alignment, x, y, color, alpha, auto_clear, height );
 }
-function _show_text_for_time( msg, time, fadein, fadeout, alignment, x, y, color, alpha, auto_clear, height )
+
+function _show_text_for_time( text, time, fadein, fadeout, alignment, x, y, color, alpha, auto_clear, height )
 {
 	Assert(fadein + fadeout <= time, "Fade times must be collectively less than the total time");
 
 	self endon( "death" );
 	self endon( "disconnect" );
 
-	lui_data = self show_text( msg, alignment, x, y, color, alpha, auto_clear, height );
+	lui_data = self show_text( text, alignment, x, y, color, alpha, auto_clear, height );
 
 	if ( isdefined( time ) && time > 0 )
 	{
@@ -215,6 +215,7 @@ function show_shader_for_time( shader, time = 5, fadein = 0, fadeout = 0, alignm
 {
 	self thread _show_shader_for_time( shader, time, fadein, fadeout, alignment, x, y, width, height, alpha, auto_clear );
 }
+
 function _show_shader_for_time( shader, time, fadein, fadeout, alignment, x, y, width, height, alpha, auto_clear )
 {
 	Assert(fadein + fadeout <= time, "Fade times must be collectively less than the total time");
@@ -235,7 +236,7 @@ function _show_shader_for_time( shader, time, fadein, fadeout, alignment, x, y, 
 
 		if( fadeout > 0 )
 		{
-			wait( time - fadeout );
+			wait( time );
 			time -= (time - fadeout);
 			self thread fade_lui_menu(lui_data, fadeout, alpha, 0);
 		}
@@ -254,8 +255,27 @@ function fade_lui_menu( lui_data, time, preAlpha, postAlpha )
 		ratio = counter / time;
 		alpha = (preAlpha * ratio) + (postAlpha * ( 1 - ratio ));
 		self SetLUIMenuData( lui_data.hud, "alpha", alpha );
-		counter -= 0.05;
-		wait(0.05);
+		counter -= SERVER_FRAME;
+		WAIT_SERVER_FRAME;
+	}
+}
+
+function rotate_lui_menu_for_time( lui_data, degrees = 60, time = 2 )
+{
+		self thread _rotate_lui_menu_for_time( lui_data, degrees, time );
+}
+
+function _rotate_lui_menu_for_time( lui_data, degrees, time )
+{
+	self endon( "death" );
+	self endon( "disconnect" );
+	
+	n_per_frame = (degrees/time) * SERVER_FRAME;
+	//n_degrees = 0; // first frame already rotate? = n_per_frame;
+	for (n_degrees = 0; n_degrees != degrees; n_degrees += n_per_frame)
+	{
+		self SetLUIMenuData( lui_data.hud, "zRot", n_degrees );
+		WAIT_SERVER_FRAME;
 	}
 }
 

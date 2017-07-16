@@ -100,12 +100,12 @@ function test_lock_release()
 
 function test_lui_msg()
 {
-	self thread m_lui::show_text_for_time( "COOKIES!", 5, LUI_HUDELEM_ALIGNMENT_CENTER, 0, 320, RED );
+	self thread m_lui::show_text_for_time( "COOKIES!", 5, 2, 2, LUI_HUDELEM_ALIGNMENT_CENTER, 0, 320, RED );
 }
 
 function test_lui_shader()
 {
-	self thread m_lui::show_shader_for_time( "t7_hud_waypoints_contested_koth", 5, 0, 0, 128, 128 );
+	self thread m_lui::show_shader_for_time( "t7_hud_waypoints_contested_koth", 5, 2, 2, 0, 0, 128, 128 );
 }
 
 // ---------------
