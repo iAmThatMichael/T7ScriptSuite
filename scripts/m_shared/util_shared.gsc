@@ -87,3 +87,37 @@ function get_players_in_team( team = "allies" )
 
 	return players;
 }
+
+/@
+"Author: DidUknowiPwn"
+"Name: m_util::spawn_bot_button()"
+"Summary: A threaded function that spawns a bot on USE & AB press"
+"Module: Utility"
+"Example: player thread m_util::spawn_bot_button();"
+@/
+function spawn_bot_button()
+{
+	self endon("death");
+	self endon("disconnect");
+
+	for (;;)
+	{
+		WAIT_SERVER_FRAME;
+		// player is pressing use and attack
+		if ( self UseButtonPressed() && self AttackButtonPressed() )
+		{
+			bot = spawn_bot();
+
+			while ( self UseButtonPressed() )
+				WAIT_SERVER_FRAME;
+		}
+	}
+}
+
+function spawn_bot()
+{
+	bot = AddTestClient();
+	if ( IsDefined( bot ) )
+		bot BotSetRandomCharacterCustomization();
+	return bot;
+}
