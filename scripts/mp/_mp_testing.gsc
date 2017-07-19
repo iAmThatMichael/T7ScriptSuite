@@ -22,7 +22,7 @@
 #using scripts\m_shared\array_shared;
 #using scripts\m_shared\lui_shared;
 #using scripts\m_shared\player_shared;
-// #using scripts\m_shared\trigger_shared;
+#using scripts\m_shared\trigger_shared;
 #using scripts\m_shared\util_shared;
 
 #precache( "material", "t7_hud_waypoints_contested_koth" );
@@ -52,9 +52,16 @@ function on_player_spawned()
 	while( !IS_TRUE( level.prematch_over ) )
 		WAIT_SERVER_FRAME;
 
-	self thread test_player();
 	self thread test_lui();
+	self thread test_player();
+	self thread test_trigger();
 	self thread test_util();
+}
+
+function test_lui()
+{
+	//self thread test_lui_msg();
+	//self thread test_lui_shader();
 }
 
 function test_player()
@@ -62,16 +69,30 @@ function test_player()
 	//self thread test_lock_release();
 }
 
-function test_lui()
+function test_trigger()
 {
-	self thread test_lui_msg();
-	self thread test_lui_shader();
+	self thread test_trigger_run();
 }
 
 function test_util()
 {
 	//self thread test_get_team_count();
 }
+
+// ---------------
+// LUI CODE 
+// ---------------
+
+function test_lui_msg()
+{
+	self thread m_lui::show_text_for_time( "COOKIES!", 5, 2, 2, LUI_HUDELEM_ALIGNMENT_CENTER, 0, 320, RED );
+}
+
+function test_lui_shader()
+{
+	self thread m_lui::show_shader_for_time( "t7_hud_waypoints_contested_koth", 5, 2, 2, 0, 0, 128, 128 );
+}
+
 
 // ---------------
 // PLAYER CODE 
@@ -95,17 +116,36 @@ function test_lock_release()
 }
 
 // ---------------
-// LUI CODE 
+// TRIGGER CODE 
 // ---------------
 
-function test_lui_msg()
+function test_trigger_run() // thread original function?
 {
-	self thread m_lui::show_text_for_time( "COOKIES!", 5, 2, 2, LUI_HUDELEM_ALIGNMENT_CENTER, 0, 320, RED );
+	trig = Spawn( "trigger_radius", self.origin, 0, 128, 128 );
+	trig m_trigger::exec_trigger_loop( &dummy_validation, &dummy_callback ); // or thread the logic?
 }
 
-function test_lui_shader()
+function dummy_validation( ent, callback )
 {
-	self thread m_lui::show_shader_for_time( "t7_hud_waypoints_contested_koth", 5, 2, 2, 0, 0, 128, 128 );
+	self [[ callback ]]( (IsPlayer( ent ) && ent UseButtonPressed()) );
+}
+
+function dummy_callback( passed )
+{
+	if( passed )
+	{
+		IPrintLn( "Passed validation" );
+		self notify( "passed" );
+		self dummy_cleanup(); // keeping cleanup separate in case other work is needed
+	}
+	else
+		IPrintLn( "Failed validation" );
+}
+
+function dummy_cleanup()
+{
+	self Delete();
+	IPrintLn( "Deleted" );
 }
 
 // ---------------

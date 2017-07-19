@@ -25,7 +25,7 @@
 
 /@
 "Author: DidUknowiPwn"
-"Name: m_trigger::create_trigger( <type>, <origin>, <radius>, <height>, [SPAWNFLAGS] = 0 )""
+"Name: m_trigger::create_trigger( <type>, <origin>, <radius>, <height>, [SPAWNFLAGS] = 0 )"
 "Summary: Create a trigger type with assigned properties."
 "Module: Utility"
 "MandatoryArg: <type> : type of the trigger"
@@ -52,4 +52,37 @@ function create_trigger( type, origin, radius, height, SPAWNFLAGS = 0 )
 	name = "trigger_" + type;
 	ent = Spawn( name, origin, SPAWNFLAGS, radius, height );
 	return ent;
+}
+
+/@
+"Author: DidUknowiPwn"
+"Name: m_trigger::exec_trigger_loop( <validation>, <callback> )"
+"Summary: Run logic through the trigger for both validation & callback."
+"Module: Utility"
+"MandatoryArg: <validation> : function that handles the validation for callback"
+"MandatoryArg: <callback> : function that runs after validation"
+"Example: trig m_trigger::exec_trigger_loop( &dummy_validate, &dummy_callback );"
+@/
+function exec_trigger_loop( validation, callback )
+{
+	self endon( "delete" );
+	self endon( "passed" );
+
+	while( true )
+	{
+		self waittill( "trigger", ent ); // any other parameters?
+
+		self [[ validation ]]( ent, callback );
+	}
+	// keeping cleanup separate in case other work is needed on this trigger
+}
+
+function exec_trigger_once( validation, callback )
+{
+	self endon( "delete" );
+	self endon( "passed" );
+
+	self waittill( "trigger", ent ); // any other parameters?
+
+	self [[ validation ]]( ent, callback );
 }
