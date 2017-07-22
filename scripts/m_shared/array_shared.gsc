@@ -32,7 +32,7 @@
 @/
 function search( array, value, as_index = false )
 {
-	if ( !IsArray( array ) )
+	if ( !IsArray( array ) || !IsInArray( array, value ) )
 		return undefined;
 
 	for ( i = 0; i < array.size; i++ )
@@ -57,31 +57,23 @@ function randomize_return( array )
 
 /@
 "Author: DidUknowiPwn"
-"Name: m_array::create_from( <array>, <n_s_index> )"
+"Name: m_array::create_from( <array>, <n_s_index>, [n_e_index], [b_reversed] )"
 "Summary: Return a new array from supplied array but start from given index"
 "Module: Utility"
 "MandatoryArg: <array> : the array to work from"
 "MandatoryArg: <n_s_index> : the index to start the new array"
 "OptionalArg: [n_e_index] : the index to end the new array"
-"OptionalArg: [reversed] : reverse the order of the array"
+"OptionalArg: [b_reversed] : reverse the order of the array"
 "Example: a_new_items = m_array::create_from( array, 3 );"
 @/
-function create_from( array, n_s_index, n_e_index, reversed = false )
+function create_from( array, n_s_index, n_e_index, b_reversed = false )
 {
 	a_ret = [];
 	a_max_index = ( isdefined( n_e_index ) && n_e_index > 0 ? n_e_index : array.size );
 	a_max_index = math::clamp( a_max_index, 0, array.size );
 
-	if( !reversed )
-	{
-		for( i = n_s_index; i < a_max_index; i++ )
-			a_ret[ i ] = array[ i ];
-	}
-	else
-	{
-		for( i = a_max_index - 1; i >= 0; i-- )
-			a_ret[ a_ret.size ] = array[ i ];
-	}
+	for( i = n_s_index; i < a_max_index; i++ )
+		a_ret[ i ] = array[ i ];
 
-	return a_ret;
+	return ( b_reversed ? array::reverse( a_ret ) : a_ret );
 }

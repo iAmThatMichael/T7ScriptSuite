@@ -127,7 +127,7 @@ function test_trigger_run() // thread original function?
 
 function dummy_validation( ent, callback )
 {
-	self [[ callback ]]( (IsPlayer( ent ) && ent UseButtonPressed()) );
+	self [[ callback ]]( ( IsPlayer( ent ) && ent UseButtonPressed() ) );
 }
 
 function dummy_callback( passed )
@@ -135,7 +135,7 @@ function dummy_callback( passed )
 	if( passed )
 	{
 		IPrintLn( "Passed validation" );
-		self notify( "passed" );
+		self notify( "passed" ); // to kill trigger but keep it in level
 		self dummy_cleanup(); // keeping cleanup separate in case other work is needed
 	}
 	else
