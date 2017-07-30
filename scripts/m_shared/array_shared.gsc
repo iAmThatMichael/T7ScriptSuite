@@ -44,13 +44,13 @@ function search( array, value, as_index = false )
 
 /@
 "Author: DidUknowiPwn"
-"Name: m_array::randomize_return( <array> )"
+"Name: m_array::select_random( <array> )"
 "Summary: Select a random element from the array while randomizing the array"
 "Module: Utility"
 "MandatoryArg: <array> : the array of items to randomize and select from"
-"Example: selection = m_array::randomize_return( level.players );"
+"Example: selection = m_array::select_random( level.players );"
 @/
-function randomize_return( array )
+function select_random( array )
 {
 	return array::random( array::randomize( array ) );
 }
@@ -69,10 +69,10 @@ function randomize_return( array )
 function create_from( array, n_s_index, n_e_index, b_reversed = false )
 {
 	a_ret = [];
-	a_max_index = ( isdefined( n_e_index ) && n_e_index > 0 ? n_e_index : array.size );
-	a_max_index = math::clamp( a_max_index, 0, array.size );
+	n_max_index = ( isdefined( n_e_index ) && n_e_index > 0 ? n_e_index : array.size );
+	n_max_index = math::clamp( n_max_index, 0, array.size );
 
-	for( i = n_s_index; i < a_max_index; i++ )
+	for( i = n_s_index; i < n_max_index; i++ )
 		a_ret[ i ] = array[ i ];
 
 	return ( b_reversed ? array::reverse( a_ret ) : a_ret );

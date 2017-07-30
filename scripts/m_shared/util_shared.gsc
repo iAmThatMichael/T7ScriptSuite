@@ -28,7 +28,7 @@
 "Summary: Converts given values to a string"
 "Module: Utility"
 "MandatoryArg: <convert> : the value to convert to a string"
-"OptionalArg: [append_str] : parameter 1 causes this to return an index instead of item"
+"OptionalArg: [append_str] : append each convert item with this"
 "Example: str = m_util::to_string( 15 );"
 @/
 function to_string( convert, append_str = "" )
@@ -117,7 +117,25 @@ function spawn_bot_button()
 function spawn_bot()
 {
 	bot = AddTestClient();
-	if ( IsDefined( bot ) )
+	if ( isdefined( bot ) )
 		bot BotSetRandomCharacterCustomization();
 	return bot;
+}
+
+/@
+"Author: DidUknowiPwn"
+"Name: m_util::in_between( <lowest>, <greatest>, <comparison> )"
+"Summary: Gets the total of players in a team"
+"Module: Utility"
+"MandatoryArg: <lowest> : lowest value to compare"
+"MandatoryArg: <greatest> : largest value to compare"
+"MandatoryArg: <comparison> : value to test"
+"Example: num = m_util::in_between( 6, 10, 8 );"
+@/
+function in_between( lowest, greatest, comparison )
+{
+	//greatest = ( val_a > val_b ? val_a : val_b );
+	//lowest = ( greatest == val_a ? val_a : val_b );
+
+	return ( comparison >= lowest && comparison <= greatest );
 }

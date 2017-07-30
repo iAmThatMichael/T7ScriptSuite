@@ -20,6 +20,7 @@
 #using scripts\shared\lui_shared;
 
 #insert scripts\shared\shared.gsh;
+#insert scripts\m_shared\lui.gsh
 
 #namespace m_lui;
 
