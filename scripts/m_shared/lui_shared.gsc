@@ -20,7 +20,10 @@
 #using scripts\shared\lui_shared;
 
 #insert scripts\shared\shared.gsh;
-#insert scripts\m_shared\lui.gsh
+
+// T7 Script Suite - Include everything
+#insert scripts\m_shared\utility.gsh;
+T7_SCRIPT_SUITE_INCLUDES
 
 #namespace m_lui;
 

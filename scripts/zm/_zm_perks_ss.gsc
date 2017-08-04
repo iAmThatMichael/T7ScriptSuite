@@ -17,6 +17,10 @@
 
 #insert scripts\shared\shared.gsh;
 
+// T7 Script Suite - Include everything
+#insert scripts\m_shared\utility.gsh;
+T7_SCRIPT_SUITE_INCLUDES
+
 #namespace m_zm_perks;
 
 function get_perk_alias( str_perk )

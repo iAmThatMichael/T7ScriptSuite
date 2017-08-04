@@ -18,12 +18,9 @@
 
 #insert scripts\shared\shared.gsh;
 
-// T7ScriptSuite scripts
-#using scripts\m_shared\array_shared;
-#using scripts\m_shared\lui_shared;
-#using scripts\m_shared\player_shared;
-#using scripts\m_shared\trigger_shared;
-#using scripts\m_shared\util_shared;
+// T7 Script Suite - Include everything
+#insert scripts\m_shared\utility.gsh;
+T7_SCRIPT_SUITE_INCLUDES
 
 #precache( "material", "t7_hud_waypoints_contested_koth" );
 
