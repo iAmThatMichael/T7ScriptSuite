@@ -73,7 +73,7 @@ function get_perk_hint_string( str_perk )
 	return "Press ^3[{+activate}]^7 to buy perk [Cost: &&1]"; // return default hint string
 }
 
-function get_perk_perk_bottle_weapon( str_perk )
+function get_perk_bottle_weapon( str_perk )
 {
 	Assert( isdefined( level._custom_perks[ str_perk ] ) && isdefined( level._custom_perks[ str_perk ].perk_bottle_weapon ), "_zm_perks_ss::get_perk_hint_string undefined perk: " + str_perk );
 
