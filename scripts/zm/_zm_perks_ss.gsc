@@ -23,6 +23,14 @@ T7_SCRIPT_SUITE_INCLUDES
 
 #namespace m_zm_perks;
 
+/@
+"Author: DidUknowiPwn"
+"Name: m_zm_perks::get_perk_alias( <str_perk> )"
+"Summary: Returns the perks alias string"
+"Module: Zombiemode - Perks"
+"MandatoryArg: <str_perk> : The perks 'specialty_' name"
+"Example: alias = m_zm_perks::get_perk_alias( "specialty_vultureaid" );"
+@/
 function get_perk_alias( str_perk )
 {
 	Assert( isdefined( level._custom_perks[ str_perk ] ) && isdefined( level._custom_perks[ str_perk ].alias ), "_zm_perks_ss::get_perk_alias undefined perk: " + str_perk );
@@ -32,6 +40,14 @@ function get_perk_alias( str_perk )
 	return str_perk; // return the 'specialty_' by default name as thats what the function in _zm_perks does
 }
 
+/@
+"Author: DidUknowiPwn"
+"Name: m_zm_perks::get_perk_hash_id( <str_perk> )"
+"Summary: Returns the perks hash id"
+"Module: Zombiemode - Perks"
+"MandatoryArg: <str_perk> : The perks 'specialty_' name"
+"Example: hash_id = m_zm_perks::get_perk_hash_id( "specialty_vultureaid" );"
+@/
 function get_perk_hash_id( str_perk )
 {
 	Assert( isdefined( level._custom_perks[ str_perk ] ) && isdefined( level._custom_perks[ str_perk ].hash_id ), "_zm_perks_ss::get_perk_hash_id undefined perk: " + str_perk );
@@ -41,6 +57,14 @@ function get_perk_hash_id( str_perk )
 	return -1; // return -1 by default
 }
 
+/@
+"Author: DidUknowiPwn"
+"Name: m_zm_perks::get_perk_cost( <str_perk> )"
+"Summary: Returns the perks cost"
+"Module: Zombiemode - Perks"
+"MandatoryArg: <str_perk> : The perks 'specialty_' name"
+"Example: cost = m_zm_perks::get_perk_cost( "specialty_vultureaid" );"
+@/
 function get_perk_cost( str_perk )
 {
 	Assert( isdefined( level._custom_perks[ str_perk ] ) && isdefined( level._custom_perks[ str_perk ].cost ), "_zm_perks_ss::get_perk_cost undefined perk: " + str_perk );
@@ -64,6 +88,14 @@ function get_perk_cost( str_perk )
 	return cost;
 }
 
+/@
+"Author: DidUknowiPwn"
+"Name: m_zm_perks::get_perk_hint_string( <str_perk> )"
+"Summary: Returns the perks hint string"
+"Module: Zombiemode - Perks"
+"MandatoryArg: <str_perk> : The perks 'specialty_' name"
+"Example: hint_string = m_zm_perks::get_perk_hint_string( "specialty_vultureaid" );"
+@/
 function get_perk_hint_string( str_perk )
 {
 	Assert( isdefined( level._custom_perks[ str_perk ] ) && isdefined( level._custom_perks[ str_perk ].hint_string ), "_zm_perks_ss::get_perk_hint_string undefined perk: " + str_perk );
@@ -73,6 +105,14 @@ function get_perk_hint_string( str_perk )
 	return "Press ^3[{+activate}]^7 to buy perk [Cost: &&1]"; // return default hint string
 }
 
+/@
+"Author: DidUknowiPwn"
+"Name: m_zm_perks::get_perk_bottle_weapon( <str_perk> )"
+"Summary: Returns the perks bottle weapon"
+"Module: Zombiemode - Perks"
+"MandatoryArg: <str_perk> : The perks 'specialty_' name"
+"Example: perk_bottle_weapon = m_zm_perks::get_perk_bottle_weapon( "specialty_vultureaid" );"
+@/
 function get_perk_bottle_weapon( str_perk )
 {
 	Assert( isdefined( level._custom_perks[ str_perk ] ) && isdefined( level._custom_perks[ str_perk ].perk_bottle_weapon ), "_zm_perks_ss::get_perk_hint_string undefined perk: " + str_perk );
