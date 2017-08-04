@@ -124,3 +124,65 @@ function get_perk_bottle_weapon( str_perk )
 		return level.machine_assets[ str_perk ].weapon;
 	return level.weaponNone; // return some weapon by default
 }
+
+/@
+"Author: [TxM] WARDOG"
+"Name: m_zm_perks::include_perk_in_random_rotation( <str_perk> )"
+"Summary: Includes this perk as part of the random perks rotation cycle"
+"Module: Zombiemode - Perks"
+"MandatoryArg: <str_perk> : The perks 'specialty_' name"
+"Example: m_zm_perks::include_perk_in_random_rotation( "specialty_vultureaid" );"
+@/
+function include_perk_in_random_rotation( str_perk )
+{
+	MAKE_ARRAY ( level._random_perk_machine_perk_list )
+
+	if ( IsInArray ( level._random_perk_machine_perk_list, str_perk ) )
+		return;
+
+	level._random_perk_machine_perk_list [ level._random_perk_machine_perk_list.size ] = str_perk;
+}
+
+/@
+"Author: [TxM] WARDOG"
+"Name: m_zm_perks::remove_perk_from_random_rotation( <str_perk> )"
+"Summary: Removes this perk from the random perks rotation cycle"
+"Module: Zombiemode - Perks"
+"MandatoryArg: <str_perk> : The perks 'specialty_' name"
+"Example: m_zm_perks::remove_perk_from_random_rotation( "specialty_vultureaid" );"
+@/
+function remove_perk_from_random_rotation( str_perk )
+{
+	MAKE_ARRAY( level._random_perk_machine_perk_list )
+
+	if( !IsInArray( level._random_perk_machine_perk_list, str_perk ) )
+		return;
+
+	ArrayRemoveValue( level._random_perk_machine_perk_list, str_perk, false );
+}
+
+/@
+"Author: [TxM] WARDOG"
+"Name: m_zm_perks::get_weighted_random_perk( <player> )"
+"Summary: Gets a weighted random perk from the random perks rotation cycle"
+"Module: Zombiemode - Perks"
+"MandatoryArg: <player> : Player to pick random perk for"
+"Example: weighted_random_perk = m_zm_perks::get_weighted_random_perk( player );"
+@/
+function get_weighted_random_perk( player )
+{
+	keys = array::randomize( GetArrayKeys( level._random_perk_machine_perk_list ) );
+
+	if( isdefined( level.custom_random_perk_weights ) )
+		keys = player [[ level.custom_random_perk_weights ]]();
+
+	foreach ( perk in keys )
+	{
+		if ( player HasPerk ( level._random_perk_machine_perk_list[ perk ] ) )
+			continue;
+		if ( player zm_perks::has_perk_paused ( level._random_perk_machine_perk_list[ perk ] ) )
+			continue;
+		return level._random_perk_machine_perk_list [ perk ] ;
+	}
+	return level._random_perk_machine_perk_list [ keys[ 0 ] ];
+}
