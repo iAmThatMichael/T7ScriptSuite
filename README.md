@@ -136,3 +136,21 @@ It's to expand scripting capabilities for every user, as well as, understand new
 * Returns: weapon
 
 * Parameters: string
+
+6. ``` m_zm_perks::include_perk_in_random_rotation( <str_perk> ) ```
+
+* Returns: undefined
+
+* Parameters: string
+
+7. ``` m_zm_perks::remove_perk_from_random_rotation( <str_perk> ) ```
+
+* Returns: undefined
+
+* Parameters: string
+
+8. ``` m_zm_perks::get_weighted_random_perk( <player> ) ```
+
+* Returns: string
+
+* Parameters: player
