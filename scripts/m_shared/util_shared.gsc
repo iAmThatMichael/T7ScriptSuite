@@ -20,6 +20,10 @@
 #insert scripts\shared\shared.gsh;
 #insert scripts\shared\statstable_shared.gsh;
 
+// T7 Script Suite - Include everything
+#insert scripts\m_shared\utility.gsh;
+T7_SCRIPT_SUITE_INCLUDES
+
 #namespace m_util;
 
 /@
