@@ -21,6 +21,7 @@
 // T7ScriptSuite scripts
 #using scripts\m_shared\array_shared;
 #using scripts\m_shared\lui_shared;
+#using scripts\m_shared\math_shared;
 #using scripts\m_shared\player_shared;
 #using scripts\m_shared\trigger_shared;
 #using scripts\m_shared\util_shared;

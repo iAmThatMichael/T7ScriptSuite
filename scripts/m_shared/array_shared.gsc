@@ -44,13 +44,13 @@ function search( array, value, as_index = false )
 
 /@
 "Author: DidUknowiPwn"
-"Name: m_array::select_random( <array> )"
+"Name: m_array::randomized_selection( <array> )"
 "Summary: Select a random element from the array while randomizing the array"
 "Module: Utility"
 "MandatoryArg: <array> : the array of items to randomize and select from"
-"Example: selection = m_array::select_random( level.players );"
+"Example: selection = m_array::randomized_selection( level.players );"
 @/
-function select_random( array )
+function randomized_selection( array )
 {
 	return array::random( array::randomize( array ) );
 }
@@ -72,8 +72,24 @@ function create_from( array, n_s_index, n_e_index, b_reversed = false )
 	n_max_index = ( isdefined( n_e_index ) && n_e_index > 0 ? n_e_index : array.size );
 	n_max_index = math::clamp( n_max_index, 0, array.size );
 
-	for( i = n_s_index; i < n_max_index; i++ )
+	for ( i = n_s_index; i < n_max_index; i++ )
 		a_ret[ i ] = array[ i ];
 
 	return ( b_reversed ? array::reverse( a_ret ) : a_ret );
+}
+
+/@
+"Author: DidUknowiPwn"
+"Name: m_array::get_next_in_array( <array>, <search> )"
+"Summary: Return object that's next in array, wraps back as if a circular array"
+"Module: Utility"
+"MandatoryArg: <array> : the array to work from"
+"MandatoryArg: <search> : the item to search the index for"
+"Example: obj = m_array::get_next_in_array( array, 3 );"
+@/
+function get_next_in_array( array, item )
+{
+	n_start_idx = search( array, item, true );
+	n_next_idx = ( n_start_idx  < array.size - 1 ? n_start_idx + 1 : 0 );
+	return array[ n_next_idx ];
 }
