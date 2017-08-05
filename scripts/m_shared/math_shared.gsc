@@ -10,6 +10,12 @@
 
 #using scripts\shared\math_shared;
 
+// T7 Script Suite - Include everything
+#insert scripts\m_shared\utility.gsh;
+T7_SCRIPT_SUITE_INCLUDES
+#insert scripts\m_shared\lui.gsh;
+#insert scripts\m_shared\bits.gsh;
+
 #namespace m_math;
 
 /@
