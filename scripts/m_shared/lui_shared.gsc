@@ -23,6 +23,7 @@
 
 // T7 Script Suite - Include everything
 #insert scripts\m_shared\utility.gsh;
+#insert scripts\m_shared\lui.gsh;
 T7_SCRIPT_SUITE_INCLUDES
 
 #namespace m_lui;
