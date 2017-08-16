@@ -69,7 +69,7 @@ function show_text( text, alignment = LUI_HUDELEM_ALIGNMENT_CENTER, x = 0, y = 0
 	if ( IsString( text ) && text != "" )
 	{
 		data = SpawnStruct();
-		
+
 		data.hud = self OpenLUIMenu( "HudElementText" );
 		data.type = "text";
 		data.idx = self.lui_hud["text"].size;
@@ -172,18 +172,18 @@ function show_shader( shader, alignment = 0, x = 0, y = 0, width = 128, height =
 	if ( IsString( shader ) && shader != "" )
 	{
 		data = SpawnStruct();
-		
+
 		data.hud = self OpenLUIMenu( "HudElementImage" );
 		data.type = "image";
 		data.idx = self.lui_hud["image"].size;
-    
+
 		// the shader spawns at bottom left 0 0, have to correct it to be centered
 		self SetLUIMenuData( data.hud, "x", Int( x + ( SCREEN_WIDTH/2 - width/2 ) ) );
 		self SetLUIMenuData( data.hud, "y", Int( y + ( SCREEN_HEIGHT/2 - height /2 ) ) );
 		self SetLUIMenuData( data.hud, "width", width );
 		self SetLUIMenuData( data.hud, "height", height );
 		self SetLUIMenuData( data.hud, "alpha", alpha );
-		
+
 		self SetLUIMenuData( data.hud, "material", shader );
 
 		self.lui_hud["image"][ data.idx ] = data.hud;
@@ -217,7 +217,7 @@ function show_shader( shader, alignment = 0, x = 0, y = 0, width = 128, height =
 "OptionalArg: [auto_clear] : automatically clear the shader on death, downed, or game end"
 "Example: player m_lui::show_shader_for_time( "specialty_fastreload_zombies", 10, 1, 1, 0, 320 );"
 @/
-function show_shader_for_time( shader, time = 5, fadein = 0, fadeout = 0, alignment = 0, x = 0, y = 0, width = 128, height = 128, alpha = 1, auto_clear = true ) 
+function show_shader_for_time( shader, time = 5, fadein = 0, fadeout = 0, alignment = 0, x = 0, y = 0, width = 128, height = 128, alpha = 1, auto_clear = true )
 {
 	self thread _show_shader_for_time( shader, time, fadein, fadeout, alignment, x, y, width, height, alpha, auto_clear );
 }
@@ -275,7 +275,7 @@ function _rotate_lui_menu_for_time( lui_data, degrees, time )
 {
 	self endon( "death" );
 	self endon( "disconnect" );
-	
+
 	n_per_frame = (degrees/time) * SERVER_FRAME;
 	//n_degrees = 0; // first frame already rotate? = n_per_frame;
 	for (n_degrees = 0; n_degrees != degrees; n_degrees += n_per_frame)

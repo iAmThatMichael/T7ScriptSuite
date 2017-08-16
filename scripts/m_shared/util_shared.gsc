@@ -128,3 +128,41 @@ function spawn_bot()
 	return bot;
 }
 
+function button_pressed( button, callback, cooldown = SERVER_FRAME )
+{
+	self endon( "death" );
+	self endon( "disconnect" );
+
+	while ( true )
+	{
+		WAIT_SERVER_FRAME;
+
+		if ( WAS_BUTTON_PRESSED( button ) )
+		{
+			self [[ callback ]]();
+			while ( WAS_BUTTON_PRESSED( button ) )
+				wait cooldown;
+		}
+	}
+}
+
+function dual_button_pressed( buttons, callback, cooldown = SERVER_FRAME )
+{
+	self endon( "death" );
+	self endon( "disconnect" );
+
+	assert( buttons.size != 2, "Must be 2 buttons in buttons arg m_util::dual_button_pressed()" );
+
+	while ( true )
+	{
+		WAIT_SERVER_FRAME;
+
+		if ( WAS_BUTTON_PRESSED( buttons[0] ) && WAS_BUTTON_PRESSED( buttons[1] ) )
+		{
+			self [[ callback ]]();
+
+			while ( WAS_BUTTON_PRESSED( buttons[0] && WAS_BUTTON_PRESSED( buttons[1] ) ) )
+				wait cooldown;
+		}
+	}
+}

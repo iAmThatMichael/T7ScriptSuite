@@ -51,8 +51,8 @@ function lock( stance = self GetStance() )
 	self AllowSprint( false );
 	self SetMoveSpeedScale( 0 );
 	// weapons -- player weapons must be handled before locking them
-	self DisableWeaponCycling(); 
-	self DisableOffhandWeapons(); 
+	self DisableWeaponCycling();
+	self DisableOffhandWeapons();
 }
 
 /@
@@ -76,8 +76,8 @@ function release()
 	self AllowSprint( true );
 	self SetMoveSpeedScale( 1 );
 	// weapons
-	self EnableWeaponCycling(); 
-	self EnableOffhandWeapons(); 
+	self EnableWeaponCycling();
+	self EnableOffhandWeapons();
 }
 
 function loop_stance( stance )

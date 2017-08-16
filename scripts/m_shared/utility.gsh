@@ -4,3 +4,7 @@
 	#using scripts\m_shared\player_shared; \
 	#using scripts\m_shared\trigger_shared; \
 	#using scripts\m_shared\util_shared; \
+
+
+#define WAS_BUTTON_PRESSED(button) \
+	( isdefined(button) && IsFunctionPtr(button) && self [[button]]() )
