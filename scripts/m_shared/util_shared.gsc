@@ -140,7 +140,7 @@ function button_pressed( button, callback, s_notify, cooldown = SERVER_FRAME )
 			self [[ callback ]]();
 
 			while ( WAS_BUTTON_PRESSED( button ) )
-				WAIT_SERVER_FRAME
+				wait ( cooldown );
 		}
 	}
 }
@@ -175,6 +175,6 @@ function buttons_pressed( buttons, callback, s_notify, cooldown = SERVER_FRAME )
 			self [[ callback ]]();
 
 		while ( WAS_BUTTON_PRESSED( buttons[0] ) )
-			WAIT_SERVER_FRAME
+			wait ( cooldown );
 	}
 }
