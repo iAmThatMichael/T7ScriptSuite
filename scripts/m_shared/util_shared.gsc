@@ -97,27 +97,16 @@ function get_players_in_team( team = "allies" )
 /@
 "Author: DidUknowiPwn"
 "Name: m_util::spawn_bot_button()"
-"Summary: A threaded function that spawns a bot on USE & AB press"
+"Summary: A threaded function that spawns a bot on Reload & Use buttons press"
 "Module: Utility"
 "Example: player thread m_util::spawn_bot_button();"
 @/
 function spawn_bot_button()
 {
-	self endon("death");
-	self endon("disconnect");
+	self endon( "death" );
+	self endon( "disconnect" );
 
-	for (;;)
-	{
-		WAIT_SERVER_FRAME;
-		// player is pressing use and attack
-		if ( self UseButtonPressed() && self AttackButtonPressed() )
-		{
-			bot = spawn_bot();
-
-			while ( self UseButtonPressed() )
-				WAIT_SERVER_FRAME;
-		}
-	}
+	self thread buttons_pressed( Array( &ReloadButtonPressed, &UseButtonPressed ), &spawn_bot );
 }
 
 function spawn_bot()
@@ -139,20 +128,24 @@ function button_pressed( button, callback, s_notify, cooldown = SERVER_FRAME )
 		self endon( s_notify );
 	}
 
+	assert( IsPlayer( self ), "Must call this on a player [m_util::button_pressed()]");
+	assert( IsFunctionPtr( button ), "Must use 1 function for button arg [m_util::button_pressed()]");
+
 	while ( true )
 	{
-		WAIT_SERVER_FRAME;
+		WAIT_SERVER_FRAME
 
 		if ( WAS_BUTTON_PRESSED( button ) )
 		{
 			self [[ callback ]]();
+
 			while ( WAS_BUTTON_PRESSED( button ) )
-				wait cooldown;
+				WAIT_SERVER_FRAME
 		}
 	}
 }
 
-function dual_button_pressed( buttons, callback, s_notify, cooldown = SERVER_FRAME )
+function buttons_pressed( buttons, callback, s_notify, cooldown = SERVER_FRAME )
 {
 	self endon( "death" );
 	self endon( "disconnect" );
@@ -163,18 +156,25 @@ function dual_button_pressed( buttons, callback, s_notify, cooldown = SERVER_FRA
 		self endon( s_notify );
 	}
 
-	assert( buttons.size == 2, "Must be 2 buttons in buttons arg m_util::dual_button_pressed()" );
+	assert( IsPlayer( self ), "Must call this on a player [m_util::button_pressed()]");
+	assert( buttons.size > 1, "Must use more than 1 function for buttons arg [m_util::buttons_pressed()]");
 
 	while ( true )
 	{
-		WAIT_SERVER_FRAME;
+		a_buttons_selected = []; // re(set) the array
 
-		if ( WAS_BUTTON_PRESSED( buttons[0] ) && WAS_BUTTON_PRESSED( buttons[1] ) )
+		WAIT_SERVER_FRAME
+
+		foreach ( button in buttons )
 		{
+			if ( WAS_BUTTON_PRESSED( buttons ) )
+				ARRAY_ADD( a_buttons_selected, true );
+		}
+
+		if ( a_buttons_selected.size == buttons.size ) // just assuming that the array is all true
 			self [[ callback ]]();
 
-			while ( WAS_BUTTON_PRESSED( buttons[0] && WAS_BUTTON_PRESSED( buttons[1] ) ) )
-				wait cooldown;
-		}
+		while ( WAS_BUTTON_PRESSED( buttons[0] ) )
+			WAIT_SERVER_FRAME
 	}
 }
