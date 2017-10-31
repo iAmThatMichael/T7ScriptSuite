@@ -128,10 +128,16 @@ function spawn_bot()
 	return bot;
 }
 
-function button_pressed( button, callback, cooldown = SERVER_FRAME )
+function button_pressed( button, callback, s_notify, cooldown = SERVER_FRAME )
 {
 	self endon( "death" );
 	self endon( "disconnect" );
+
+	if ( isdefined( s_notify ) )
+	{
+		self notify( s_notify );
+		self endon( s_notify );
+	}
 
 	while ( true )
 	{
@@ -146,12 +152,18 @@ function button_pressed( button, callback, cooldown = SERVER_FRAME )
 	}
 }
 
-function dual_button_pressed( buttons, callback, cooldown = SERVER_FRAME )
+function dual_button_pressed( buttons, callback, s_notify, cooldown = SERVER_FRAME )
 {
 	self endon( "death" );
 	self endon( "disconnect" );
 
-	assert( buttons.size != 2, "Must be 2 buttons in buttons arg m_util::dual_button_pressed()" );
+	if ( isdefined( s_notify ) )
+	{
+		self notify( s_notify );
+		self endon( s_notify );
+	}
+
+	assert( buttons.size == 2, "Must be 2 buttons in buttons arg m_util::dual_button_pressed()" );
 
 	while ( true )
 	{
