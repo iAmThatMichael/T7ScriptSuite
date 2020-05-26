@@ -181,3 +181,9 @@ function buttons_pressed( buttons, callback, s_notify, cooldown = SERVER_FRAME )
 			wait ( cooldown );
 	}
 }
+
+function message( severity = S_TRACE, str )
+{
+	// space is deliberate
+	IPrintLn( " ^" + severity + str );
+}
