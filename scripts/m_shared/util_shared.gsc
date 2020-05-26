@@ -106,6 +106,9 @@ function spawn_bot_button()
 	self endon( "death" );
 	self endon( "disconnect" );
 
+	if ( self IsTestClient() )
+		return;
+
 	self thread buttons_pressed( Array( &ReloadButtonPressed, &UseButtonPressed ), &spawn_bot );
 }
 
@@ -133,7 +136,7 @@ function button_pressed( button, callback, s_notify, cooldown = SERVER_FRAME )
 
 	while ( true )
 	{
-		WAIT_SERVER_FRAME
+		WAIT_SERVER_FRAME;
 
 		if ( WAS_BUTTON_PRESSED( button ) )
 		{
@@ -157,17 +160,17 @@ function buttons_pressed( buttons, callback, s_notify, cooldown = SERVER_FRAME )
 	}
 
 	assert( IsPlayer( self ), "Must call this on a player [m_util::button_pressed()]");
-	assert( buttons.size > 1, "Must use more than 1 function for buttons arg [m_util::buttons_pressed()]");
+	assert( IsArray( buttons ) && buttons.size > 1, "Must use more than 1 function for buttons arg [m_util::buttons_pressed()]");
 
 	while ( true )
 	{
 		a_buttons_selected = []; // re(set) the array
 
-		WAIT_SERVER_FRAME
+		WAIT_SERVER_FRAME;
 
 		foreach ( button in buttons )
 		{
-			if ( WAS_BUTTON_PRESSED( buttons ) )
+			if ( WAS_BUTTON_PRESSED( button ) )
 				ARRAY_ADD( a_buttons_selected, true );
 		}
 
